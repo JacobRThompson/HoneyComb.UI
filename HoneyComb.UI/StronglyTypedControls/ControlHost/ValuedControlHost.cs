@@ -81,8 +81,9 @@ namespace Honeycomb.UI.StronglyTypedControls
         {
             switch (Child)
             {
-                case HoneycombComboBox honeyComboBox:
-                    honeyComboBox.Text = newValue;
+                case ComboBox cBox:
+                    Console.WriteLine(cBox.Text);
+                    cBox.Text = newValue;
                     break;
 
                 default: 
