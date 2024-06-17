@@ -13,4 +13,10 @@
     <Using Include="Honeycomb.UI.Utils" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>

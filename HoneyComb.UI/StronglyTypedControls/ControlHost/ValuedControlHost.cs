@@ -64,10 +64,10 @@ namespace Honeycomb.UI.StronglyTypedControls
         /// <remarks>
         /// This is mainly used as an optimization to prevent rendunant parsing + verifying
         /// </remarks>
-        public bool Dirty 
+        public virtual bool Dirty 
         { 
             get; 
-            private set; 
+            protected set; 
         } = false;
 
         public  Dictionary<Guid,ITextBoxVerifier<T>> Verifiers { get; }
