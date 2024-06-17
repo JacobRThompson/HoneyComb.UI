@@ -1,4 +1,5 @@
 ﻿using Honeycomb.UI.StronglyTypedControls.ControlHost;
+using HoneyComb.UI.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

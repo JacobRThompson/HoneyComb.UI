@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Honeycomb.UI.Utils
+namespace HoneyComb.UI.Utils.Extensions
 {
     public static class ErrorProviderExtensions
     {

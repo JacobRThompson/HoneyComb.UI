@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Honeycomb.UI.Utils
+namespace HoneyComb.UI.Utils.Extensions
 {
     public static class ControlExtensions
     {
@@ -67,6 +67,13 @@ namespace Honeycomb.UI.Utils
 
         public static bool HasMouse(this Control control, Rectangle clientRegion) => clientRegion.Contains(control.PointToClient(Cursor.Position));
         public static bool HasMouse(this Control control) => control.HasMouse(control.ClientRectangle);
+
+
+
+
+
+
+
 
     }
 }

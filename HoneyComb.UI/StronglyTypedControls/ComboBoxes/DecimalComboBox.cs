@@ -16,12 +16,20 @@ namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
 {
     [ToolboxItem(Globals.SHOW_BASE_COMPONENTS_IN_TOOLBOX)]
     public class DecimalComboBox : NumericControlHost<HoneycombComboBox, decimal>
-    {     
-        public DecimalComboBox() : base(
-            new Dictionary<Guid, ITextBoxVerifier<decimal>>()
-            {
-                {ComboBoxRangeVerifier.TypeId, new ComboBoxRangeVerifier<HoneycombComboBox,decimal>(enabled: true) }
-            })       
+    {
+        public DecimalComboBox() : this([]) { }
+
+        public DecimalComboBox(Dictionary<Guid, ITextBoxVerifier<decimal>> miscVerifiers) : 
+            base(
+                new Dictionary<Guid, ITextBoxVerifier<decimal>>()
+                {
+                     //Add ComboBox verifier in addition to all other passed/inherited verifiers
+                    {ComboBoxRangeVerifier.TypeId, new ComboBoxRangeVerifier<HoneycombComboBox,decimal>(enabled: true) }
+                }
+                .Concat(miscVerifiers)
+                .ToDictionary(x => x.Key, x => x.Value)
+            )
+            
         {
             ComboBoxExtension = new(this, Child);
 

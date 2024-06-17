@@ -12,6 +12,7 @@ using System.Drawing;
 
 using System.Windows.Forms.VisualStyles;
 using Honeycomb.UI.Interfaces;
+using HoneyComb.UI.Utils.Extensions;
 
 namespace Honeycomb.UI.BaseComponents
 {

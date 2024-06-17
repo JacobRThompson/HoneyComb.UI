@@ -14,13 +14,19 @@ namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
     [ToolboxItem(Globals.SHOW_BASE_COMPONENTS_IN_TOOLBOX)]
     public class DoubleComboBox : NumericControlHost<HoneycombComboBox, double>
     {
-        public DoubleComboBox(Dictionary<Guid, ITextBoxVerifier<double>>? miscVerifiers = null) : base(
-            new Dictionary<Guid, ITextBoxVerifier<double>>()
-            {
-                {ComboBoxRangeVerifier.TypeId, new ComboBoxRangeVerifier<HoneycombComboBox,double>(enabled: true) }
-            }
-            .Concat(miscVerifiers ?? new Dictionary<Guid, ITextBoxVerifier<double>>())
-            .ToDictionary(x => x.Key, x => x.Value))
+
+        public DoubleComboBox(): this([]) { }
+
+        public DoubleComboBox(Dictionary<Guid, ITextBoxVerifier<double>> miscVerifiers) : 
+            base(
+                new Dictionary<Guid, ITextBoxVerifier<double>>()
+                {   
+                    //Add ComboBox verifier in addition to all other passed/inherited verifiers
+                    {ComboBoxRangeVerifier.TypeId, new ComboBoxRangeVerifier<HoneycombComboBox,double>(enabled: true) }
+                }
+                .Concat(miscVerifiers)
+                .ToDictionary(x => x.Key, x => x.Value)
+            )
         {
             ComboBoxExtension = new(this, Child);
 

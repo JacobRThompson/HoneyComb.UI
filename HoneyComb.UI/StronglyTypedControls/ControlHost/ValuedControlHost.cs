@@ -79,10 +79,12 @@ namespace Honeycomb.UI.StronglyTypedControls
 
         void SetChildText(in string newValue)
         {
+
+
+
             switch (Child)
             {
-                case ComboBox cBox:
-                    Console.WriteLine(cBox.Text);
+                case ComboBox cBox:                   
                     cBox.Text = newValue;
                     break;
 
@@ -141,14 +143,23 @@ namespace Honeycomb.UI.StronglyTypedControls
                 return true;             
             }
 
-            bool couldParse = Parser.TryParse(Child.Text, out value);
-            bool couldVerify = Verify((couldParse, value));
-
-            if (couldVerify)
+            bool couldParse = Parser.TryParse(Text, out value);
+            if (couldParse)
             {
-                SetPrevValue(couldParse? value: null);
+                //Check to see if we need to apply formatting to value if we can parse it
+                string newText = Parser.ConvertToString(value);
+                if (Text != newText)
+                {
+                    SetChildText(newText);
+                }
             }
 
+            bool couldVerify = Verify((couldParse, value));
+            if (couldVerify)
+            {
+                SetPrevValue(couldParse? value: null);                
+            }
+         
             return couldVerify;
         }
 
@@ -318,19 +329,6 @@ namespace Honeycomb.UI.StronglyTypedControls
         public override string Text
         {
             get => Child.Text;
-            set
-            {
-                // handle null values
-                string newValue = value ?? string.Empty;
-
-                //Only update things if we are updating property to a new value
-                if (newValue != Child.Text)
-                {
-                    Child.Text = newValue;
-                    Dirty = true;
-                }
-            }
-
         }
 
         public override Font Font

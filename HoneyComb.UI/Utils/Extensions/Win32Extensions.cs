@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Honeycomb.UI.Utils
+namespace HoneyComb.UI.Utils.Extensions
 {
     public static class Win32Extensions
     {
@@ -26,9 +26,9 @@ namespace Honeycomb.UI.Utils
             public RECT rcItem;     // Coordinates of the editable area of the combobox
             public RECT rcButton;   // Coordinates of the dropdown button
             public int stateButton; // State of the dropdown button (pressed or not)
-            public IntPtr hwndCombo; // Handle to the combobox control
-            public IntPtr hwndEdit; // Handle to the edit control (if there is one)
-            public IntPtr hwndList; // Handle to the listbox control (if there is one)
+            public nint hwndCombo; // Handle to the combobox control
+            public nint hwndEdit; // Handle to the edit control (if there is one)
+            public nint hwndList; // Handle to the listbox control (if there is one)
         }
 
         // Struct used by the COMBOBOXINFO struct to represent a rectangular area
@@ -43,15 +43,15 @@ namespace Honeycomb.UI.Utils
 
         // Win32 API function that retrieves information about the combobox control
         [DllImport("user32.dll", SetLastError = true)]
-        private static extern bool GetComboBoxInfo(IntPtr hwndCombo, ref COMBOBOXINFO pcbi);
+        private static extern bool GetComboBoxInfo(nint hwndCombo, ref COMBOBOXINFO pcbi);
 
         // Win32 API function that retrieves the handle of a window that is a child of the specified window
         [DllImport("user32.dll", SetLastError = true)]
-        private static extern IntPtr GetWindow(IntPtr hWnd, int uCmd);
+        private static extern nint GetWindow(nint hWnd, int uCmd);
 
         // Win32 API function that sends a message to a window and waits for the window to process the message
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        private static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
+        private static extern nint SendMessage(nint hWnd, int Msg, nint wParam, nint lParam);
 
         // Public method that gets the ListBox control associated with a ComboBox control
         public static ListBox GetListBoxFromComboBox(ComboBox comboBox)
@@ -70,7 +70,7 @@ namespace Honeycomb.UI.Utils
 
                     // Get the handle of the listbox control
                     //IntPtr hwndList = GetWindow(info.hwndCombo, GW_HWNDNEXT);
-                    if (info.hwndList != IntPtr.Zero)
+                    if (info.hwndList != nint.Zero)
                     {
                         // Create a ListBox control object from the handle
                         var listBox = Control.FromHandle(info.hwndList);

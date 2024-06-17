@@ -9,12 +9,12 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Honeycomb.UI.Utils
+namespace HoneyComb.UI.Utils.Extensions
 {
-    public static class StructExtensions 
+    public static class StructExtensions
     {
         public static Point Subtract(this Point p1, Point p2) => new(p1.X - p2.X, p1.Y - p2.Y);
-        public static Point  Add(this Point p1, Point p2) => new(p1.X + p2.X, p1.Y + p2.Y);
+        public static Point Add(this Point p1, Point p2) => new(p1.X + p2.X, p1.Y + p2.Y);
 
         public static Rectangle Deflate(this Rectangle rect, Padding padding)
         {
@@ -25,9 +25,9 @@ namespace Honeycomb.UI.Utils
             return rect;
         }
 
-        public static float GetAspectRatio(this Image image) =>  image.Width / image.Height;
- 
-        public static Point GetCenter(this Rectangle rect) => new(rect.X + rect.Width/2, rect.Y + rect.Height/2);
+        public static float GetAspectRatio(this Image image) => image.Width / image.Height;
+
+        public static Point GetCenter(this Rectangle rect) => new(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
 
         public static Rectangle ScaleToAspectRatio(this Rectangle rect, float aspectRatio)
         {
@@ -63,10 +63,10 @@ namespace Honeycomb.UI.Utils
             BitmapData bitmapData = bitmap.LockBits(rect, ImageLockMode.ReadWrite, bitmap.PixelFormat);
 
             // Get a pointer to the first byte of the bitmap data
-            IntPtr ptr = bitmapData.Scan0;
+            nint ptr = bitmapData.Scan0;
 
             // Calculate the number of bytes per pixel and the stride of the bitmap data
-            int bytesPerPixel = Bitmap.GetPixelFormatSize(bitmap.PixelFormat) / 8;
+            int bytesPerPixel = Image.GetPixelFormatSize(bitmap.PixelFormat) / 8;
             int stride = bitmapData.Stride;
 
             byte[] pixelValues = new byte[Math.Abs(stride) * bitmap.Height];
@@ -106,7 +106,7 @@ namespace Honeycomb.UI.Utils
             byte* ptr = (byte*)bitmapData.Scan0.ToPointer();
 
             // Calculate the number of bytes per pixel and the stride of the Bitmap data
-            int bytesPerPixel = Bitmap.GetPixelFormatSize(bitmap.PixelFormat) / 8;
+            int bytesPerPixel = Image.GetPixelFormatSize(bitmap.PixelFormat) / 8;
             int stride = bitmapData.Stride;
 
             for (int y = 0; y < bitmap.Height; y++)

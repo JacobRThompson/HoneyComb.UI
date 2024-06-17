@@ -8,10 +8,11 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HoneyComb.UI.Utils.Extensions;
 
 namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
 {
-    
+
     [ToolboxItem(Globals.SHOW_BASE_COMPONENTS_IN_TOOLBOX)]
     public class StringComboBox: StringControlHost<HoneycombComboBox>
     {

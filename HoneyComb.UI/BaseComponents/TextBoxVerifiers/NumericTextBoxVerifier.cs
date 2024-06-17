@@ -5,6 +5,7 @@ using System.Numerics;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using HoneyComb.UI.Utils.Extensions;
 
 namespace Honeycomb.UI.BaseComponents.TextBoxVerifiers
 {

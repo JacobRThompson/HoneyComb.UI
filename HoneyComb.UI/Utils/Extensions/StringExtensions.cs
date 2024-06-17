@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Globalization;
-namespace Honeycomb.UI.Utils
+namespace HoneyComb.UI.Utils.Extensions
 {
     public static class StringExtensions
     {
@@ -20,7 +20,7 @@ namespace Honeycomb.UI.Utils
             {
                 allowedCharacters.Append(
                     style.HasFlag(NumberStyles.AllowCurrencySymbol) ?
-                        numberFormat.CurrencyGroupSeparator:
+                        numberFormat.CurrencyGroupSeparator :
                         numberFormat.NumberGroupSeparator
                     );
             }
@@ -65,8 +65,15 @@ namespace Honeycomb.UI.Utils
             return temp;
         }
 
-        
+        public static IEnumerable<IEnumerable<string>> SplitClipboardCells(string cells)
+        {
+            IEnumerable<string> rows = cells.Split("\r\n");
+            return rows.Select(row => row.Split("\t"));
+        }
     }
+
+    
+
 
     public enum OrderMethod
     {

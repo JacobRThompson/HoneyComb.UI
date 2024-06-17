@@ -9,10 +9,10 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using Honeycomb.UI.Utils;
+using HoneyComb.UI.Utils.Extensions;
 namespace Honeycomb.UI
 {
-   
+
 
     public class HoneycombComboBox : ValidateOnEnterComboBox, ISelectable
     {
@@ -20,7 +20,7 @@ namespace Honeycomb.UI
 
       
 
-        private readonly object _lock = new();
+        private bool _doNotDrawLastItem = false;
         private readonly ISelectable _iSelectable;
 
 
@@ -44,7 +44,7 @@ namespace Honeycomb.UI
         [DefaultValue(true)]
         public bool Selectable { get; set; } = true;
 
-      
+        
 
 
         protected override void OnDropDownStyleChanged(EventArgs e)
@@ -81,6 +81,7 @@ namespace Honeycomb.UI
 
         protected override void OnDropDown(EventArgs e)
         {
+            _doNotDrawLastItem = true;
             _onDropDownAction(e);
         }
       
@@ -110,7 +111,16 @@ namespace Honeycomb.UI
             var Brush = Brushes.Black;
             Color _backColor;
 
-            string _text = e.Index != -1 ? Items[e.Index].ToString()! : this.Text;
+
+            string _text;
+            if(e.Index != -1)
+            {
+                _text = Items[e.Index].ToString()!;
+            }
+            else
+            {
+                _text = this.Text;
+            }
 
             if ((e.State & DrawItemState.ComboBoxEdit) == DrawItemState.ComboBoxEdit)
             {     
@@ -118,16 +128,17 @@ namespace Honeycomb.UI
 
                 e.Graphics.FillRectangle(new SolidBrush(_backColor), e.Bounds);
                 e.Graphics.DrawString(_text, Font, Brush, e.Bounds, StringFormat.GenericDefault);
-                //ControlPaint.DrawFocusRectangle(e.Graphics, e.Bounds);
+               
             }
             else if (e.Index != _lastHighlightedItem.Index)
             {
                 SuspendLayout();
-                //If we are opening the dropdown, we prevent the control from highlighting the last item
-                if (DroppedDown & e.Index == Items.Count-1)
-                {
-                   
+                //If we are opening the dropdown, we prevent the control from highlighting the last item in the dropdown's list.
+                //We only have to skip this attempt to highlight once per each time the dropdown is opened (I haven't the slightest clue why this is the case)
+                if (DroppedDown && _doNotDrawLastItem & e.Index == Items.Count-1)
+                {                  
                     _backColor = BACK_COLOR;
+                    _doNotDrawLastItem = false;
                 }
                 else
                 {
@@ -147,9 +158,7 @@ namespace Honeycomb.UI
             {
                 e.Graphics.FillRectangle(new SolidBrush(BACK_COLOR), e.Bounds);
                 e.Graphics.DrawString(_text, Font, Brush, e.Bounds, StringFormat.GenericDefault);
-            }
-
-            //Console.WriteLine($"currentIndex: {e.Index} \t pos: {e.Bounds.GetCenter()} ");
+            }           
         }
 
         private void AdjustControlSize()

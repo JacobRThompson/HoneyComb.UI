@@ -5,30 +5,30 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Honeycomb.UI.Utils
+namespace HoneyComb.UI.Utils.Extensions
 {
     public static class IEnumerableExtensions
     {
         public static IEnumerable<TResult> If<TResult>(
             this IEnumerable<TResult> source,
             bool condition,
-            in Func<IEnumerable<TResult>, IEnumerable<TResult>> operation) 
+            in Func<IEnumerable<TResult>, IEnumerable<TResult>> operation)
         {
             return condition ? operation(source) : source;
         }
 
-        public static IEnumerable<TResult> If<T,TResult>(
-           this IEnumerable<TResult> source, 
+        public static IEnumerable<TResult> If<T, TResult>(
+           this IEnumerable<TResult> source,
            bool condition,
            in Func<IEnumerable<TResult>, T, IEnumerable<TResult>> operation,
            in T p1)
         {
             return condition ? operation(source, p1) : source;
-          
+
         }
 
         public static IEnumerable<TResult> If<T1, T2, TResult>(
-          this IEnumerable<TResult> source, 
+          this IEnumerable<TResult> source,
           bool condition,
           in Func<IEnumerable<TResult>, T1, T2, IEnumerable<TResult>> operation,
           in T1 p1, in T2 p2)
