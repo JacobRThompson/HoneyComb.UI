@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HoneyComb.UI.Utils;
 using HoneyComb.UI.Utils.Extensions;
-namespace HoneyComb.UI.BaseComponents
+namespace HoneyComb.UI.BaseComponents.MultiSelect
 {
     public partial class MultiSelector : IDisposable
     {
@@ -18,9 +18,10 @@ namespace HoneyComb.UI.BaseComponents
         private Point _selectionStartPt = default;
         private Rectangle _selectionArea = default;
 
-        public TranslucentPanel _boxPainter = new() { 
-            Visible = false, 
-            BackColor = SystemColors.Highlight.ToAlpha(64), 
+        public MultiSelectPanel _selectionAreaPainter = new()
+        {
+            Visible = false,
+            BackColor = SystemColors.Highlight.ToAlpha(64),
         };
 
         private bool _isDisposed;
@@ -42,7 +43,7 @@ namespace HoneyComb.UI.BaseComponents
                     _parent.MouseMove -= Parent_MouseMove;
                     _parent.MouseUp -= Parent_MouseUp;
 
-                    _parent.Controls.Remove(_boxPainter);
+                    _parent.Controls.Remove(_selectionAreaPainter);
                 }
 
                 _parent = value;
@@ -53,39 +54,39 @@ namespace HoneyComb.UI.BaseComponents
                     value.MouseMove += Parent_MouseMove;
                     value.MouseUp += Parent_MouseUp;
 
-                    value.Controls.Add(_boxPainter);
-                    value.Controls.SetChildIndex(_boxPainter, 0);
+                    value.Controls.Add(_selectionAreaPainter);
+                    value.Controls.SetChildIndex(_selectionAreaPainter, 0);
                 }
             }
         }
 
-        public IEnumerable<Control>SelectedControls => _selectedControls;
+        public IEnumerable<Control> SelectedControls => _selectedControls;
 
-        IEnumerable<Control> ControlsWithinSelectionArea 
+        IEnumerable<Control> ControlsWithinSelectionArea
         {
             get
             {
-                if(!IsSelecting || Parent == null ) 
-                { 
-                    return Enumerable.Empty<Control>(); 
+                if (!IsSelecting || Parent == null)
+                {
+                    return Enumerable.Empty<Control>();
                 }
                 else
                 {
                     return Parent.GetAllChildren(child =>
                         IntersectsSelectedRegion(child) &&
-                        child != _boxPainter);
-                    
-                }              
+                        child != _selectionAreaPainter);
+
+                }
             }
         }
 
         bool IntersectsSelectedRegion(Control control)
         {
-            var absPainterPosition = _boxPainter.PointToScreen(new(0));
+            var absPainterPosition = _selectionAreaPainter.PointToScreen(new(0));
             var absControlPosition = control.PointToScreen(new(0));
 
 
-            var absPainterBounds = new Rectangle(absPainterPosition, _boxPainter.Size);
+            var absPainterBounds = new Rectangle(absPainterPosition, _selectionAreaPainter.Size);
             var absControlBounds = new Rectangle(absControlPosition, control.Size);
 
             return absPainterBounds.IntersectsWith(absControlBounds);
@@ -93,8 +94,8 @@ namespace HoneyComb.UI.BaseComponents
 
         public Color SelectionColor
         {
-            get => _boxPainter.BackColor; 
-            set => _boxPainter.BackColor = value;
+            get => _selectionAreaPainter.BackColor;
+            set => _selectionAreaPainter.BackColor = value;
         }
 
         private bool IsSelecting
@@ -102,8 +103,8 @@ namespace HoneyComb.UI.BaseComponents
             get => _isSelecting;
             set
             {
-                _isSelecting= value;
-                _boxPainter.Visible = value;
+                _isSelecting = value;
+                _selectionAreaPainter.Visible = value;
             }
         }
 
@@ -111,11 +112,11 @@ namespace HoneyComb.UI.BaseComponents
         private Rectangle SelectionArea
         {
             get => _selectionArea;
-            set 
+            set
             {
                 _selectionArea = value;
-                _boxPainter.Location = _selectionArea.Location;
-                _boxPainter.Size = _selectionArea.Size;
+                _selectionAreaPainter.Location = _selectionArea.Location;
+                _selectionAreaPainter.Size = _selectionArea.Size;
             }
         }
 
@@ -141,7 +142,8 @@ namespace HoneyComb.UI.BaseComponents
 
         void Parent_MouseMove(object? sender, MouseEventArgs e)
         {
-            if (IsSelecting) {
+            if (IsSelecting)
+            {
 
                 SelectionArea = new Rectangle(
                     Math.Min(_selectionStartPt.X, e.X),
@@ -152,7 +154,7 @@ namespace HoneyComb.UI.BaseComponents
                 //_boxPainter.Invalidate();
             }
         }
-                      
+
         void IDisposable.Dispose()
         {
             if (!_isDisposed)
@@ -164,7 +166,7 @@ namespace HoneyComb.UI.BaseComponents
                     Parent.MouseMove += Parent_MouseMove;
                     Parent.MouseUp += Parent_MouseUp;
 
-                    Parent.Controls.Remove(_boxPainter);
+                    Parent.Controls.Remove(_selectionAreaPainter);
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override finalizer

@@ -14,7 +14,7 @@ namespace Honeycomb.UI.Utils
         private static Random _rng = new();
 
         public static Color ToAlpha(this Color c, byte alpha = 255) => Color.FromArgb(alpha, c.R, c.G, c.B);
-        public static Color GenRandomColor() => Color.FromArgb(_rng.Next(256), _rng.Next(256), _rng.Next(256));
+        public static Color GenerateRandom() => Color.FromArgb(_rng.Next(256), _rng.Next(256), _rng.Next(256));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Color Lerp(Color a, Color b, float amount)

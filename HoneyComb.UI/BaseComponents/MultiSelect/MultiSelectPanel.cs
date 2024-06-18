@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HoneyComb.UI.BaseComponents
+namespace HoneyComb.UI.BaseComponents.MultiSelect
 {
-    public class TranslucentPanel : Panel
+    public class MultiSelectPanel : Panel
     {
 
-        public TranslucentPanel()
+        public MultiSelectPanel()
         {
 
         }
@@ -32,13 +32,13 @@ namespace HoneyComb.UI.BaseComponents
             base.OnPaint(e);
             using (Brush b = new SolidBrush(BackColor))
             {
-                e.Graphics.FillRectangle(b, this.ClientRectangle);
+                e.Graphics.FillRectangle(b, ClientRectangle);
             }
             using (Pen pen = new Pen(SystemColors.Highlight, 2))
             {
 
-                var drawnArea = this.ClientRectangle;
-                drawnArea.Deflate(new(3,3,4,4));
+                var drawnArea = ClientRectangle;
+                drawnArea.Deflate(new(3, 3, 4, 4));
 
                 pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
                 e.Graphics.DrawRectangle(pen, drawnArea);
