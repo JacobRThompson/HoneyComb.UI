@@ -11,6 +11,9 @@ namespace HoneyComb.UI.BaseComponents
 {
     public partial class MultiSelector : IDisposable
     {
+
+        private readonly HashSet<Control> _selectedControls = [];
+
         private bool _isSelecting = false;
         private Point _selectionStartPt = default;
         private Rectangle _selectionArea = default;
@@ -56,7 +59,9 @@ namespace HoneyComb.UI.BaseComponents
             }
         }
 
-        public IEnumerable<Control> SelectedControls 
+        public IEnumerable<Control>SelectedControls => _selectedControls;
+
+        IEnumerable<Control> ControlsWithinSelectionArea 
         {
             get
             {
@@ -66,12 +71,10 @@ namespace HoneyComb.UI.BaseComponents
                 }
                 else
                 {
-                    var temp = Parent.GetAllChildren(child => 
+                    return Parent.GetAllChildren(child =>
                         IntersectsSelectedRegion(child) &&
-                        child != _boxPainter)
-                    .ToArray();
-
-                    return temp;
+                        child != _boxPainter);
+                    
                 }              
             }
         }
@@ -121,19 +124,19 @@ namespace HoneyComb.UI.BaseComponents
         {
             IsSelecting = true;
             _selectionStartPt = e.Location;
+            _selectedControls.Clear();
         }
 
         void Parent_MouseUp(object? sender, MouseEventArgs e)
         {
 
-            foreach (Control c in SelectedControls)
+            foreach (Control c in ControlsWithinSelectionArea)
             {
                 c.BackColor = Color.Red;
+                _selectedControls.Add(c);
             }
 
             IsSelecting = false;
-
-
         }
 
         void Parent_MouseMove(object? sender, MouseEventArgs e)
