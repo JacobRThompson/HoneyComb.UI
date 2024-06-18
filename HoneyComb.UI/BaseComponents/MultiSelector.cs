@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HoneyComb.UI.Utils;
-
+using HoneyComb.UI.Utils.Extensions;
 namespace HoneyComb.UI.BaseComponents
 {
     public partial class MultiSelector : IDisposable
@@ -66,13 +66,27 @@ namespace HoneyComb.UI.BaseComponents
                 }
                 else
                 {
-                    return (from Control control in Parent.Controls select control).
-                    Where( control => control != _boxPainter && SelectionArea.IntersectsWith(control.Bounds));
+                    var temp = Parent.GetAllChildren(child => 
+                        IntersectsSelectedRegion(child) &&
+                        child != _boxPainter)
+                    .ToArray();
+
+                    return temp;
                 }              
             }
         }
 
+        bool IntersectsSelectedRegion(Control control)
+        {
+            var absPainterPosition = _boxPainter.PointToScreen(new(0));
+            var absControlPosition = control.PointToScreen(new(0));
 
+
+            var absPainterBounds = new Rectangle(absPainterPosition, _boxPainter.Size);
+            var absControlBounds = new Rectangle(absControlPosition, control.Size);
+
+            return absPainterBounds.IntersectsWith(absControlBounds);
+        }
 
         public Color SelectionColor
         {

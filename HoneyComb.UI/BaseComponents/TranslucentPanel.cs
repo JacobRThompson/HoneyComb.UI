@@ -12,7 +12,7 @@ namespace HoneyComb.UI.BaseComponents
 
         public TranslucentPanel()
         {
-            
+
         }
 
         protected override CreateParams CreateParams
@@ -40,7 +40,7 @@ namespace HoneyComb.UI.BaseComponents
                 var drawnArea = this.ClientRectangle;
                 drawnArea.Deflate(new(3,3,4,4));
 
-                pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+                pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
                 e.Graphics.DrawRectangle(pen, drawnArea);
             }
 

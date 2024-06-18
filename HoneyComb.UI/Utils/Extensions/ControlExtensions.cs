@@ -9,6 +9,26 @@ namespace HoneyComb.UI.Utils.Extensions
 {
     public static class ControlExtensions
     {
+
+        public static IEnumerable<Control> GetAllChildren(this Control target, Predicate<Control>? filter = null, HashSet<Control>? recordedControls = null)
+        {
+            recordedControls ??= [];
+
+            return target.Controls.Cast<Control>()
+                .Where(ctrl => ctrl != target &&
+                        !recordedControls.Contains(ctrl) &&         //Skip anything that has already been recorded
+                        (filter?.Invoke(ctrl) ?? true))             //Apply filter(if one was passed)
+                .Select(ctrl =>
+                {
+                    recordedControls.Add(ctrl);                     //record each found control
+                    return ctrl;
+                })
+                .SelectMany(ctrl => ctrl
+                    .GetAllChildren(filter, recordedControls)       //recursively scrape children
+                    .Append(ctrl)                                   //add self to final output
+                );
+        }
+
         public static void SwapIndices(this Control.ControlCollection controls, int index1, int index2)
         {
 
