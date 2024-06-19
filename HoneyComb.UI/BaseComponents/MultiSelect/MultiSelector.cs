@@ -120,6 +120,36 @@ namespace HoneyComb.UI.BaseComponents.MultiSelect
             }
         }
 
+        public void PasteClipboardToSelectedArea()
+        {
+            Color c;
+            var pasteableControls = SelectedControls
+                .Where(ctrl => ctrl.Tag is IExcelPasteTarget tag && tag.PasteableFromExcel);
+
+            var controlRowSource = Algorithms
+                .GenerateRows(pasteableControls)
+                .GetEnumerator();
+
+            var valueRowSource = StringExtensions.
+                SplitClipboardCells(Clipboard.GetText()).
+                GetEnumerator();
+
+
+            IEnumerator<string> valueSource;
+            IEnumerator<Control> controlSource;
+            while (controlRowSource.MoveNext() & valueRowSource.MoveNext())
+            {
+                c = Colors.GenerateRandom();
+                valueSource = valueRowSource.Current.GetEnumerator()!;
+                controlSource = controlRowSource.Current.AsEnumerable().GetEnumerator()!;
+
+                while (controlSource.MoveNext() & valueSource.MoveNext())
+                {
+                    controlSource.Current.Text = valueSource.Current;
+                    controlSource.Current.BackColor = c;
+                }
+            }
+        }
 
         void Parent_MouseDown(object? sender, MouseEventArgs e)
         {
