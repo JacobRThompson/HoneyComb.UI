@@ -9,9 +9,6 @@ namespace HoneyCombTests
 {
     public partial class DemoForm : Form
     {
-
-        private readonly List<string> dummyConsoleOutput = new();
-
         private readonly MultiSelector _multSelector;
         public DemoForm()
         {
@@ -20,8 +17,6 @@ namespace HoneyCombTests
             {
                 SelectionColor = Color.Blue.ToAlpha(20)
             };
-
-
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -58,30 +53,36 @@ namespace HoneyCombTests
             }
         }
 
-
+        Color c;
         private void button3_Click_1(object sender, EventArgs e)
         {
-            dummyConsoleOutput.Clear();
 
             var pasteableControls = _multSelector.SelectedControls
                 .Where(ctrl => ctrl.Tag is IExcelPasteTarget tag && tag.PasteableFromExcel);
 
-            var temp = Algorithms.GenerateRows(pasteableControls);
+            var controlRowSource = Algorithms
+                .GenerateRows(pasteableControls)
+                .GetEnumerator();
 
-            foreach (var row in temp)
+            var valueRowSource = StringExtensions.
+                SplitClipboardCells(Clipboard.GetText()).
+                GetEnumerator();
+
+           
+            IEnumerator<string> valueSource;
+            IEnumerator<Control> controlSource;
+            while (controlRowSource.MoveNext() & valueRowSource.MoveNext())
             {
-                Color c = Colors.GenerateRandom();
-                int i = 0;
-                foreach(Control control in row)
+                c = Colors.GenerateRandom();
+                valueSource = valueRowSource.Current.GetEnumerator()!;
+                controlSource = controlRowSource.Current.AsEnumerable().GetEnumerator()!;
+
+                while (controlSource.MoveNext() & valueSource.MoveNext())
                 {
-                    control.BackColor = c;
-                    control.Text = $"Item {i}";
-
-                    i++;
-                } 
+                    controlSource.Current.Text = valueSource.Current;
+                    controlSource.Current.BackColor = c;
+                }
             }
-
-            Console.WriteLine("Test");
         }
     }
 }

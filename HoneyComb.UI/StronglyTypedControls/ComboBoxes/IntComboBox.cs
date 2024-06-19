@@ -15,7 +15,7 @@ namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
     [ToolboxItem(Globals.SHOW_BASE_COMPONENTS_IN_TOOLBOX)]
     public class IntComboBox : NumericControlHost<HoneycombComboBox, int>
     {
-        public IntComboBox() : this([]) { }
+        public IntComboBox() : this(new()){ }
 
         public IntComboBox(Dictionary<Guid, ITextBoxVerifier<int>> miscVerifiers) : 
             base(

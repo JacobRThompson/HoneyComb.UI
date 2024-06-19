@@ -12,7 +12,7 @@ namespace HoneyComb.UI.Utils.Extensions
 
         public static IEnumerable<Control> GetAllChildren(this Control target, Predicate<Control>? filter = null, HashSet<Control>? recordedControls = null)
         {
-            recordedControls ??= [];
+            recordedControls ??= new();
 
             return target.Controls.Cast<Control>()
                 .Where(ctrl => ctrl != target &&

@@ -147,7 +147,6 @@
             stringTextBox2.Available = true;
             stringTextBox2.Location = new Point(377, 637);
             stringTextBox2.Name = "stringTextBox2";
-            stringTextBox2.PasteableFromExcel = false;
             stringTextBox2.Size = new Size(124, 31);
             stringTextBox2.TabIndex = 20;
             stronglyTypedTag2.PasteableFromExcel = false;

@@ -17,7 +17,7 @@ namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
     [ToolboxItem(Globals.SHOW_BASE_COMPONENTS_IN_TOOLBOX)]
     public class DecimalComboBox : NumericControlHost<HoneycombComboBox, decimal>
     {
-        public DecimalComboBox() : this([]) { }
+        public DecimalComboBox() : this(new()) { }
 
         public DecimalComboBox(Dictionary<Guid, ITextBoxVerifier<decimal>> miscVerifiers) : 
             base(

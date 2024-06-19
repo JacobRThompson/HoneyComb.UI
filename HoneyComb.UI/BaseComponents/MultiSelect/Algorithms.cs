@@ -17,8 +17,8 @@ namespace HoneyComb.UI.BaseComponents.MultiSelect
                 .OrderBy(ctrl => ctrl.ScreenBounds.X)
                 .ToList();
 
-            List<Control[]> results = [];
-            LinkedList<Control> currentRow = [];
+            List<Control[]> results = new();
+            LinkedList<Control> currentRow = new();
 
             MeomoizedControl currentItem;
             MeomoizedControl prevItem;

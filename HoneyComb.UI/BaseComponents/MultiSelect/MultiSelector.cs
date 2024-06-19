@@ -12,7 +12,7 @@ namespace HoneyComb.UI.BaseComponents.MultiSelect
     public partial class MultiSelector : IDisposable
     {
 
-        private readonly HashSet<Control> _selectedControls = [];
+        private readonly HashSet<Control> _selectedControls = new();
 
         private bool _isSelecting = false;
         private Point _selectionStartPt = default;
