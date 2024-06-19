@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Form1.cs">
+    <Compile Update="DemoForm.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

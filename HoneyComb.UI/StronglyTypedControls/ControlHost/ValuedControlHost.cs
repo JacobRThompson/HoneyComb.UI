@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using Honeycomb.UI.BaseComponents.TextBoxVerifiers;
 using Honeycomb.UI.StronglyTypedControls.ControlHost;
 using System.Diagnostics.CodeAnalysis;
+using HoneyComb.UI.StronglyTypedControls;
+using HoneyComb.UI.BaseComponents.MultiSelect;
 
 namespace Honeycomb.UI.StronglyTypedControls
 {
@@ -56,6 +58,8 @@ namespace Honeycomb.UI.StronglyTypedControls
             {
                 verifier.Parent = this;
             }
+
+            this.Tag = new StronglyTypedTag() { PasteableFromExcel = true };
         }
 
         /// <summary>
@@ -194,6 +198,13 @@ namespace Honeycomb.UI.StronglyTypedControls
             }
         }
 
+        [DefaultValue(true)]
+        public bool PasteableFromExcel
+        {
+            get=> (Tag as IExcelPasteTarget)!.PasteableFromExcel;
+            set => (Tag as IExcelPasteTarget)!.PasteableFromExcel = value;
+        }
+
         [DefaultValue(RequiredTextBoxVerifier.IS_REQUIRED_DEFAULT)]
         public bool IsRequired
         {
@@ -329,6 +340,14 @@ namespace Honeycomb.UI.StronglyTypedControls
         public override string Text
         {
             get => Child.Text;
+            set
+            {
+                if (value != this.Text)
+                {
+                    Dirty = true;
+                    SetChildText(value);
+                }   
+            } 
         }
 
         public override Font Font
