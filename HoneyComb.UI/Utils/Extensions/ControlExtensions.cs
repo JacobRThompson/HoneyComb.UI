@@ -28,7 +28,7 @@ namespace HoneyComb.UI.Utils.Extensions
                     .Append(ctrl)                                   //add self to final output
                 );
         }
-
+  
         public static void SwapIndices(this Control.ControlCollection controls, int index1, int index2)
         {
 

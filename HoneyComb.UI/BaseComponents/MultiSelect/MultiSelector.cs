@@ -11,6 +11,7 @@ namespace HoneyComb.UI.BaseComponents.MultiSelect
 {
     public partial class MultiSelector : IDisposable
     {
+        public static bool PaintSelectedControls = true;
 
         private readonly HashSet<Control> _selectedControls = new();
 
@@ -39,9 +40,7 @@ namespace HoneyComb.UI.BaseComponents.MultiSelect
             {
                 if (_parent != null)
                 {
-                    _parent.MouseDown -= Parent_MouseDown;
-                    _parent.MouseMove -= Parent_MouseMove;
-                    _parent.MouseUp -= Parent_MouseUp;
+                    UnTrackContainer(_parent);
 
                     _parent.Controls.Remove(_selectionAreaPainter);
                 }
@@ -50,9 +49,7 @@ namespace HoneyComb.UI.BaseComponents.MultiSelect
 
                 if (value != null)
                 {
-                    value.MouseDown += Parent_MouseDown;
-                    value.MouseMove += Parent_MouseMove;
-                    value.MouseUp += Parent_MouseUp;
+                    TrackContainer(value);
 
                     value.Controls.Add(_selectionAreaPainter);
                     value.Controls.SetChildIndex(_selectionAreaPainter, 0);
@@ -115,8 +112,12 @@ namespace HoneyComb.UI.BaseComponents.MultiSelect
             set
             {
                 _selectionArea = value;
-                _selectionAreaPainter.Location = _selectionArea.Location;
-                _selectionAreaPainter.Size = _selectionArea.Size;
+
+                if(Parent != null)
+                {
+                    _selectionAreaPainter.Location = Parent.PointToClient(_selectionArea.Location);
+                    _selectionAreaPainter.Size = _selectionArea.Size;
+                }
             }
         }
 
@@ -151,37 +152,75 @@ namespace HoneyComb.UI.BaseComponents.MultiSelect
             }
         }
 
-        void Parent_MouseDown(object? sender, MouseEventArgs e)
+        void TrackedContainer_MouseDown(object? sender, MouseEventArgs e)
         {
             IsSelecting = true;
-            _selectionStartPt = e.Location;
+
+            _selectionStartPt = (sender as Control)!.PointToScreen(e.Location);
             _selectedControls.Clear();
         }
 
-        void Parent_MouseUp(object? sender, MouseEventArgs e)
+        void TrackedContainer_MouseUp(object? sender, MouseEventArgs e)
         {
-
-            foreach (Control c in ControlsWithinSelectionArea)
+            if (PaintSelectedControls)
             {
-                c.BackColor = Color.Red;
-                _selectedControls.Add(c);
-            }
+                var c = Colors.GenerateRandom();
+                foreach (Control ctrl in ControlsWithinSelectionArea)
+                {
+                    ctrl.BackColor = c;
+                    _selectedControls.Add(ctrl);
+                }
 
-            IsSelecting = false;
+                IsSelecting = false;
+            }
+           
         }
 
-        void Parent_MouseMove(object? sender, MouseEventArgs e)
+        void TrackedContainer_MouseMove(object? sender, MouseEventArgs e)
         {
             if (IsSelecting)
             {
 
+                var newPos = (sender as Control)!.PointToScreen(e.Location);
+
                 SelectionArea = new Rectangle(
-                    Math.Min(_selectionStartPt.X, e.X),
-                    Math.Min(_selectionStartPt.Y, e.Y),
-                    Math.Abs(_selectionStartPt.X - e.X),
-                    Math.Abs(_selectionStartPt.Y - e.Y));
+                    Math.Min(_selectionStartPt.X, newPos.X),
+                    Math.Min(_selectionStartPt.Y, newPos.Y),
+                    Math.Abs(_selectionStartPt.X - newPos.X),
+                    Math.Abs(_selectionStartPt.Y - newPos.Y));
 
                 //_boxPainter.Invalidate();
+            }
+        }
+
+        void TrackContainer(ContainerControl target)
+        {
+            var containerFamilyTree = target.
+                GetAllChildren().
+                OfType<ContainerControl>().
+                Append(target);
+
+
+            foreach (var container in containerFamilyTree)
+            {
+                container.MouseDown += TrackedContainer_MouseDown;
+                container.MouseMove += TrackedContainer_MouseMove;
+                container.MouseUp += TrackedContainer_MouseUp;
+            }
+        }
+
+        void UnTrackContainer(ContainerControl target)
+        {
+            var containerFamilyTree = target.
+                GetAllChildren().
+                OfType<ContainerControl>().
+                Append(target);
+
+            foreach (var container in containerFamilyTree)
+            {
+                container.MouseDown -= TrackedContainer_MouseDown;
+                container.MouseMove -= TrackedContainer_MouseMove;
+                container.MouseUp -= TrackedContainer_MouseUp;
             }
         }
 
@@ -192,9 +231,7 @@ namespace HoneyComb.UI.BaseComponents.MultiSelect
 
                 if (Parent != null)
                 {
-                    Parent.MouseDown += Parent_MouseDown;
-                    Parent.MouseMove += Parent_MouseMove;
-                    Parent.MouseUp += Parent_MouseUp;
+                    UnTrackContainer(Parent);
 
                     Parent.Controls.Remove(_selectionAreaPainter);
                 }
