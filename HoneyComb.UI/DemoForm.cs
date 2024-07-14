@@ -10,6 +10,7 @@ namespace HoneyCombTests
     public partial class DemoForm : Form
     {
 
+        private readonly Random Rng = new Random();
         private readonly List<string> dummyConsoleOutput = new();
 
         private readonly MultiSelector _multSelector;
@@ -21,67 +22,43 @@ namespace HoneyCombTests
                 SelectionColor = Color.Blue.ToAlpha(20)
             };
 
-
+           
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            dataGridView1.Rows.Add();
-            dataGridView1.Rows.Add();
-            dataGridView1.Rows.Add();
+            
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var valueSource = StringExtensions.
-                SplitClipboardCells(Clipboard.GetText()).
-                GetEnumerator();
+            //
+            //var valueSource = StringExtensions.
+            //    SplitClipboardCells(Clipboard.GetText()).
+            //    GetEnumerator();
+            //
+            //var rowSource = dataGridView1.SelectedCells.
+            //    OrderByPosition().
+            //    GetEnumerator();
+            //
+            //IEnumerable<string> newRowValues;
+            //while (rowSource.MoveNext() & valueSource.MoveNext())
+            //{
+            //    newRowValues = valueSource.Current;
+            //    rowSource.Current.Populate(newRowValues);
+            //
+            //}
 
-            var rowSource = dataGridView1.SelectedCells.
-                OrderByPosition().
-                GetEnumerator();
 
-            IEnumerable<string> newRowValues;
-            while (rowSource.MoveNext() & valueSource.MoveNext())
-            {
-                newRowValues = valueSource.Current;
-                rowSource.Current.Populate(newRowValues);
-
-            }
+            intComboBox1.RawValues = intComboBox1.RawValues.Append(Rng.Next(-100, 100));
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (intTextBox1.TryGetValue(out var result))
-            {
-                button2.Text = result.ToString();
-            }
+            intComboBox1.SetValue(Rng.Next(-100, 100));
         }
 
 
-        private void button3_Click_1(object sender, EventArgs e)
-        {
-            dummyConsoleOutput.Clear();
-
-            var pasteableControls = _multSelector.SelectedControls
-                .Where(ctrl => ctrl.Tag is IExcelPasteTarget tag && tag.PasteableFromExcel);
-
-            var temp = Algorithms.GenerateRows(pasteableControls);
-
-            foreach (var row in temp)
-            {
-                Color c = Colors.GenerateRandom();
-                int i = 0;
-                foreach(Control control in row)
-                {
-                    control.BackColor = c;
-                    control.Text = $"Item {i}";
-
-                    i++;
-                } 
-            }
-
-            Console.WriteLine("Test");
-        }
+        
     }
 }

@@ -83,12 +83,18 @@ namespace Honeycomb.UI.StronglyTypedControls
 
         void SetChildText(in string newValue)
         {
-
-
-
             switch (Child)
             {
-                case ComboBox cBox:                   
+                case ComboBox cBox:   
+                    
+                    //We if the current comboBox is registered as a dropDownList, we cannot set the text to anything that isn't inside the textbox's items
+                    //This is an awful workaround to that specific corner case
+                    if (cBox.DropDownStyle == ComboBoxStyle.DropDownList && 
+                        !cBox.Items.Contains(newValue))
+                    {                      
+                        cBox.Items.Add(newValue);
+                    }
+
                     cBox.Text = newValue;
                     break;
 
