@@ -12,7 +12,7 @@ namespace HoneyComb.UI.Utils.Extensions
 
         public static IEnumerable<Control> GetAllChildren(this Control target, Predicate<Control>? filter = null, HashSet<Control>? recordedControls = null)
         {
-            recordedControls ??= [];
+            recordedControls ??= new();
 
             return target.Controls.Cast<Control>()
                 .Where(ctrl => ctrl != target &&
@@ -28,7 +28,7 @@ namespace HoneyComb.UI.Utils.Extensions
                     .Append(ctrl)                                   //add self to final output
                 );
         }
-
+  
         public static void SwapIndices(this Control.ControlCollection controls, int index1, int index2)
         {
 

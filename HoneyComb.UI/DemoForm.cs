@@ -9,10 +9,6 @@ namespace HoneyCombTests
 {
     public partial class DemoForm : Form
     {
-
-        private readonly Random Rng = new Random();
-        private readonly List<string> dummyConsoleOutput = new();
-
         private readonly MultiSelector _multSelector;
         public DemoForm()
         {
@@ -21,44 +17,47 @@ namespace HoneyCombTests
             {
                 SelectionColor = Color.Blue.ToAlpha(20)
             };
-
-           
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            dataGridView1.Rows.Add();
+            dataGridView1.Rows.Add();
+            dataGridView1.Rows.Add();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //
-            //var valueSource = StringExtensions.
-            //    SplitClipboardCells(Clipboard.GetText()).
-            //    GetEnumerator();
-            //
-            //var rowSource = dataGridView1.SelectedCells.
-            //    OrderByPosition().
-            //    GetEnumerator();
-            //
-            //IEnumerable<string> newRowValues;
-            //while (rowSource.MoveNext() & valueSource.MoveNext())
-            //{
-            //    newRowValues = valueSource.Current;
-            //    rowSource.Current.Populate(newRowValues);
-            //
-            //}
+            var valueSource = StringExtensions.
+                SplitClipboardCells(Clipboard.GetText()).
+                GetEnumerator();
 
+            var rowSource = dataGridView1.SelectedCells.
+                OrderByPosition().
+                GetEnumerator();
 
-            intComboBox1.RawValues = intComboBox1.RawValues.Append(Rng.Next(-100, 100));
+            IEnumerable<string> newRowValues;
+            while (rowSource.MoveNext() & valueSource.MoveNext())
+            {
+                newRowValues = valueSource.Current;
+                rowSource.Current.Populate(newRowValues);
+
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            intComboBox1.SetValue(Rng.Next(-100, 100));
+            if (intTextBox1.TryGetValue(out var result))
+            {
+                button2.Text = result.ToString();
+            }
         }
 
+      
+        private void button3_Click_1(object sender, EventArgs e)
+        {
 
-        
+            _multSelector.PasteClipboardToSelectedArea();
+        }
     }
 }

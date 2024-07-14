@@ -15,7 +15,7 @@ namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
     public class DoubleComboBox : NumericControlHost<HoneycombComboBox, double>
     {
 
-        public DoubleComboBox(): this([]) { }
+        public DoubleComboBox(): this(new()) { }
 
         public DoubleComboBox(Dictionary<Guid, ITextBoxVerifier<double>> miscVerifiers) : 
             base(

@@ -111,5 +111,12 @@ namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
         public ComboBox.ObjectCollection Items => Child.Items;
 
     }
-    
+
+    public enum OrderMethod
+    {
+        AsString,
+        AsNumberAppendNonNumeric,
+        AsNumberPrependNonNumeric
+    }
+
 }

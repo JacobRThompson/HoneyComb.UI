@@ -75,10 +75,5 @@ namespace HoneyComb.UI.Utils.Extensions
     
 
 
-    public enum OrderMethod
-    {
-        AsString,
-        AsNumberAppendNonNumeric,
-        AsNumberPrependNonNumeric
-    }
+    
 }
