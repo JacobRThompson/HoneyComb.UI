@@ -64,18 +64,31 @@ namespace Honeycomb.UI.StronglyTypedControls.ControlHost
             get => _rawValues.AsEnumerable();
             set
             {
-                //var prevChildText = Child.Text;
-                _rawValues = value.ToArray();
+                switch (Child.DropDownStyle)
+                {
+                    case ComboBoxStyle.DropDownList:
+                        var prevChildText = Child.Text;
 
-                //string currentLabel = Child.Text;
-                Child.Items.Clear();
-                Child.Items.AddRange(GenItems(_rawValues));
+                        _rawValues = value.ToArray();
+                        Child.Items.Clear();
+                        Child.Items.AddRange(GenItems(_rawValues));
+                        Child.DropDownWidth = CalcDropdownWidth(Child);
 
-               
-                Child.DropDownWidth = CalcDropdownWidth(Child);
-                //Child.Text = prevChildText;
+                        Child.Text = prevChildText;
+                        break;
+
+                    default:
+                        _rawValues = value.ToArray();                   
+                        Child.Items.Clear();
+                        Child.Items.AddRange(GenItems(_rawValues));
+                        Child.DropDownWidth = CalcDropdownWidth(Child);
+
+                        break;
+                }              
             } 
         }
+
+
 
         private string[] GenItems(in IEnumerable<T> values)
         {

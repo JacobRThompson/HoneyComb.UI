@@ -9,55 +9,19 @@ namespace HoneyCombTests
 {
     public partial class DemoForm : Form
     {
-        private readonly MultiSelector _multSelector;
+        //private readonly MultiSelector _multSelector;
         public DemoForm()
         {
             InitializeComponent();
-            _multSelector = new MultiSelector(this)
-            {
-                SelectionColor = Color.Blue.ToAlpha(20)
-            };
+            //_multSelector = new MultiSelector(this)
+            //{
+            //    SelectionColor = Color.Blue.ToAlpha(20)
+            //};
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            dataGridView1.Rows.Add();
-            dataGridView1.Rows.Add();
-            dataGridView1.Rows.Add();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            var valueSource = StringExtensions.
-                SplitClipboardCells(Clipboard.GetText()).
-                GetEnumerator();
-
-            var rowSource = dataGridView1.SelectedCells.
-                OrderByPosition().
-                GetEnumerator();
-
-            IEnumerable<string> newRowValues;
-            while (rowSource.MoveNext() & valueSource.MoveNext())
-            {
-                newRowValues = valueSource.Current;
-                rowSource.Current.Populate(newRowValues);
-
-            }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if (intTextBox1.TryGetValue(out var result))
-            {
-                button2.Text = result.ToString();
-            }
-        }
-
-      
-        private void button3_Click_1(object sender, EventArgs e)
+        private void DemoForm_Load(object sender, EventArgs e)
         {
 
-            _multSelector.PasteClipboardToSelectedArea();
         }
     }
 }
