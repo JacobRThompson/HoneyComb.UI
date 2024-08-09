@@ -27,6 +27,8 @@ namespace Honeycomb.UI.StronglyTypedControls
         /// </summary>
         private T? _prevValue = null;
 
+       
+
         private bool _available = true;
 
         protected bool _highlighted = IHighlightable.HIGHLIGHTED_;
@@ -63,10 +65,18 @@ namespace Honeycomb.UI.StronglyTypedControls
         }
 
         /// <summary>
+        /// Value that will be removed from <see cref="ComboBox.Items"/> the next time Child text changes.  
+        /// </summary>
+        /// <remarks>
+        /// Only used when <see cref="Child"/> inherits from <see cref="ComboBox"/> and has <see cref="ComboBox.DropDownStyle"/> set to <see cref="ComboBoxStyle.DropDownList"/>
+        /// </remarks>
+        public string? TemporaryText { get; set; } = null;
+
+        /// <summary>
         /// Flag indicating if there is a valid _prevValue when <see cref="TryGetValue(out T)"/> is called or if control instead needs to run parsing + verifying logic
         /// </summary>
         /// <remarks>
-        /// This is mainly used as an optimization to prevent rendunant parsing + verifying
+        /// This is mainly used as an optimization to prevent redundant parsing + verifying
         /// </remarks>
         public virtual bool Dirty 
         { 
@@ -87,12 +97,27 @@ namespace Honeycomb.UI.StronglyTypedControls
             {
                 case ComboBox cBox:   
                     
-                    //We if the current comboBox is registered as a dropDownList, we cannot set the text to anything that isn't inside the textbox's items
+                    //If the current comboBox is registered as a dropDownList, we cannot set the text to anything that isn't inside the textbox's items
                     //This is an awful workaround to that specific corner case
-                    if (cBox.DropDownStyle == ComboBoxStyle.DropDownList && 
-                        !cBox.Items.Contains(newValue))
-                    {                      
-                        cBox.Items.Add(newValue);
+                    if (cBox.DropDownStyle == ComboBoxStyle.DropDownList)
+                    {     
+                        //Remove temporary items from dropdown(if needed)
+                        if( TemporaryText != null && cBox.Items.Contains(TemporaryText))
+                        {
+                            cBox.Items.Remove(TemporaryText);
+                        }
+
+                        if (!cBox.Items.Contains(newValue))
+                        {
+                            cBox.Items.Add(newValue);
+
+                            //Mark that this value needs to be removed from Items next time child text changes
+                            TemporaryText = newValue;
+                        }
+                        else
+                        {
+                            TemporaryText = null;
+                        }
                     }
 
                     cBox.Text = newValue;
@@ -106,7 +131,6 @@ namespace Honeycomb.UI.StronglyTypedControls
                     break;
             }
         }
-
 
         public void SetPrevValue(in T? value)
         {
@@ -134,10 +158,10 @@ namespace Honeycomb.UI.StronglyTypedControls
             //Do nothing if we are not actually updating anything in a meaningful way
             if(_prevValue.HasValue && value.Equals(_prevValue.Value)){ return; }
 
-            _prevValue = value;
-
             //Update actual text that is shown
             SetChildText(Parser.ConvertToString(value));
+
+            _prevValue = value;
         }
 
         public virtual bool TryGetValue(out T value)

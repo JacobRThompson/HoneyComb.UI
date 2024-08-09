@@ -42,8 +42,6 @@ namespace Honeycomb.UI.StronglyTypedControls.ControlHost
             {
                 CanValidateOnSelectedValueChange = true;
             };
-
-
         }
 
         public ComboBox Child { get; }
@@ -74,6 +72,12 @@ namespace Honeycomb.UI.StronglyTypedControls.ControlHost
                         Child.Items.AddRange(GenItems(_rawValues));
                         Child.DropDownWidth = CalcDropdownWidth(Child);
 
+                        //Mark that we no longer have to clear temporary text if it now a valid value within dropdown
+                        if (Child.Items.Contains(Parent.TemporaryText))
+                        {
+                            Parent.TemporaryText = null;
+                        }
+
                         Child.Text = prevChildText;
                         break;
 
@@ -96,9 +100,8 @@ namespace Honeycomb.UI.StronglyTypedControls.ControlHost
                 .Distinct()
                 .If(AutoSort && AutoSortCallback!=null, AutoSortCallback!)          //Sort passed value if flag is set
                 .Select(value => Parent.Parser.ConvertToString(value))              //Convert sorted values to labels that TextBox will show
-                .If(PrependNullValue, labels => labels.Prepend(NullLabel))          //Prepend null value if neccesary
+                .If(PrependNullValue, labels => labels.Prepend(NullLabel))          //Prepend null value if necessary
                 .ToArray();                                                         //Dump results to array
-
 
         }
 

@@ -17,11 +17,24 @@ namespace HoneyCombTests
             //{
             //    SelectionColor = Color.Blue.ToAlpha(20)
             //};
+
+            intComboBox1.RawValues = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         }
 
-        private void DemoForm_Load(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
+            if (intTextBox1.TryGetValue(out int value))
+            {
+                intComboBox1.SetValue(value);
+            }
+        }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (intTextBox1.TryGetValue(out int value))
+            {
+                intComboBox1.RawValues = intComboBox1.RawValues.Append(value);
+            }
         }
     }
 }

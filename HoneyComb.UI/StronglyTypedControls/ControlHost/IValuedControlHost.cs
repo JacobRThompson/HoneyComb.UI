@@ -19,5 +19,9 @@ namespace Honeycomb.UI.StronglyTypedControls.ControlHost
         public ITextBoxParser<T> Parser { get; }
         public Dictionary<Guid, ITextBoxVerifier<T>> Verifiers { get; }
 
+        public void SetValue(in T value);
+
+        public bool TryGetValue(out T value);
+
     }
 }
