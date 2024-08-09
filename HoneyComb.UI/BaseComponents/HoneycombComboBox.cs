@@ -18,8 +18,6 @@ namespace Honeycomb.UI
     {
         const bool ALLOW_COMBOBOX_SCROLL = false;
 
-      
-
         private bool _doNotDrawLastItem = false;
         private readonly ISelectable _iSelectable;
 

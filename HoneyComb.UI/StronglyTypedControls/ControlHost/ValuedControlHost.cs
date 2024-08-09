@@ -167,7 +167,7 @@ namespace Honeycomb.UI.StronglyTypedControls
             bool couldVerify = Verify((couldParse, value));
             if (couldVerify)
             {
-                SetPrevValue(couldParse? value: null);                
+                SetPrevValue(couldParse? value: default);                
             }
          
             return couldVerify;
