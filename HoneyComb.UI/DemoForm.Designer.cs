@@ -30,10 +30,13 @@
         {
             HoneyComb.UI.StronglyTypedControls.StronglyTypedTag stronglyTypedTag1 = new HoneyComb.UI.StronglyTypedControls.StronglyTypedTag();
             HoneyComb.UI.StronglyTypedControls.StronglyTypedTag stronglyTypedTag2 = new HoneyComb.UI.StronglyTypedControls.StronglyTypedTag();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DemoForm));
             intComboBox1 = new Honeycomb.UI.StronglyTypedControls.ComboBoxes.IntComboBox();
             intTextBox1 = new Honeycomb.UI.StronglyTypedControls.TextBoxes.IntTextBox();
             button1 = new Button();
             button2 = new Button();
+            label1 = new Label();
+            adaptiveFontLabel1 = new HoneyComb.UI.BaseComponents.AdaptiveFontLabel();
             SuspendLayout();
             // 
             // intComboBox1
@@ -47,6 +50,7 @@
             intComboBox1.TabIndex = 0;
             stronglyTypedTag1.PasteableFromExcel = true;
             intComboBox1.Tag = stronglyTypedTag1;
+            intComboBox1.TemporaryText = null;
             // 
             // intTextBox1
             // 
@@ -57,6 +61,7 @@
             intTextBox1.TabIndex = 1;
             stronglyTypedTag2.PasteableFromExcel = true;
             intTextBox1.Tag = stronglyTypedTag2;
+            intTextBox1.TemporaryText = null;
             // 
             // button1
             // 
@@ -78,11 +83,33 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
+            // label1
+            // 
+            label1.Location = new Point(640, 631);
+            label1.Name = "label1";
+            label1.Size = new Size(116, 61);
+            label1.TabIndex = 4;
+            label1.Text = "label1";
+            // 
+            // adaptiveFontLabel1
+            // 
+            adaptiveFontLabel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            adaptiveFontLabel1.AvailableFontSizes = (List<float>)resources.GetObject("adaptiveFontLabel1.AvailableFontSizes");
+            adaptiveFontLabel1.BackColor = SystemColors.ControlDark;
+            adaptiveFontLabel1.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
+            adaptiveFontLabel1.Location = new Point(177, 98);
+            adaptiveFontLabel1.Name = "adaptiveFontLabel1";
+            adaptiveFontLabel1.Size = new Size(528, 175);
+            adaptiveFontLabel1.TabIndex = 5;
+            adaptiveFontLabel1.Text = "This is some text that needs to be resized";
+            // 
             // DemoForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(2169, 1062);
+            Controls.Add(adaptiveFontLabel1);
+            Controls.Add(label1);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(intTextBox1);
@@ -99,5 +126,7 @@
         private Honeycomb.UI.StronglyTypedControls.TextBoxes.IntTextBox intTextBox1;
         private Button button1;
         private Button button2;
+        private Label label1;
+        private HoneyComb.UI.BaseComponents.AdaptiveFontLabel adaptiveFontLabel1;
     }
 }
