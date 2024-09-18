@@ -11,8 +11,8 @@ namespace Honeycomb.UI.StronglyTypedControls.ControlHost
     public class DateControlHost<TControl> : ValuedControlHost<TControl, DateOnly>
           where TControl : Control, new()
     {
-        public DateControlHost(Dictionary<Guid, ITextBoxVerifier<DateOnly>>? miscVerifiers = null): base(
-            new DateTextBoxParser(),
+        public DateControlHost(Dictionary<Guid, IControlVerifier<DateOnly>>? miscVerifiers = null): base(
+            new DateControlParser(),
             miscVerifiers)
         { }
     }

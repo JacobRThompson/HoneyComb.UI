@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Honeycomb.UI.BaseComponents.TextBoxParsers
 {
-    internal class StringTextboxParser : ITextBoxParser<ReadOnlyMemory<char>>
+    internal class StringControlParser : IControlParser<ReadOnlyMemory<char>>
     {
         private readonly IAffixer<ReadOnlyMemory<char>> _affixer;
 
-        public StringTextboxParser()
+        public StringControlParser()
         {
             _affixer = new Affixer<ReadOnlyMemory<char>>();
         }

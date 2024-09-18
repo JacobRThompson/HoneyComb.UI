@@ -17,10 +17,10 @@ namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
     {
         public IntComboBox() : this(new()){ }
 
-        public IntComboBox(Dictionary<Guid, ITextBoxVerifier<int>> miscVerifiers) : 
+        public IntComboBox(Dictionary<Guid, IControlVerifier<int>> miscVerifiers) : 
             base(
                 //Add ComboBox verifier in addition to all other passed/inherited verifiers
-                new Dictionary<Guid, ITextBoxVerifier<int>>()
+                new Dictionary<Guid, IControlVerifier<int>>()
                 {
                     {ComboBoxRangeVerifier.TypeId, new ComboBoxRangeVerifier<HoneycombComboBox,int>(enabled: true) }
                 }

@@ -17,9 +17,9 @@ namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
 
         public DoubleComboBox(): this(new()) { }
 
-        public DoubleComboBox(Dictionary<Guid, ITextBoxVerifier<double>> miscVerifiers) : 
+        public DoubleComboBox(Dictionary<Guid, IControlVerifier<double>> miscVerifiers) : 
             base(
-                new Dictionary<Guid, ITextBoxVerifier<double>>()
+                new Dictionary<Guid, IControlVerifier<double>>()
                 {   
                     //Add ComboBox verifier in addition to all other passed/inherited verifiers
                     {ComboBoxRangeVerifier.TypeId, new ComboBoxRangeVerifier<HoneycombComboBox,double>(enabled: true) }

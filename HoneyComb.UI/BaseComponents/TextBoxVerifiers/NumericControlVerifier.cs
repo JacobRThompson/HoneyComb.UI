@@ -10,19 +10,19 @@ using HoneyComb.UI.Utils.Extensions;
 namespace Honeycomb.UI.BaseComponents.TextBoxVerifiers
 {
 
-    public static class NumericTextBoxVerifier
+    public static class NumericControlVerifier
     {
         public static ErrorProvider? OutsideNumericRangeProvider { get; set; }
         public readonly static Guid TypeId = Guid.NewGuid();
     }
 
-    public sealed class NumericTextBoxVerifier<T> : ITextBoxVerifier<T>
+    public sealed class NumericControlVerifier<T> : IControlVerifier<T>
         where T : struct, INumber<T>
     {
         private readonly StringBuilder _errorBuilder = new();
 
 
-        public NumericTextBoxVerifier(bool enabled, string formatString = "N", 
+        public NumericControlVerifier(bool enabled, string formatString = "N", 
             TryGetter<T>? upperBoundGetter = null,
             TryGetter<T>? lowerBoundGetter = null,
             TryGetter<T>? moduloGetter = null) 
@@ -36,7 +36,7 @@ namespace Honeycomb.UI.BaseComponents.TextBoxVerifiers
             ModuloGetter = moduloGetter;
         }
 
-        public Guid TypeId => NumericTextBoxVerifier.TypeId;
+        public Guid TypeId => NumericControlVerifier.TypeId;
 
         public bool Enabled { get; set; }
 
@@ -107,9 +107,9 @@ namespace Honeycomb.UI.BaseComponents.TextBoxVerifiers
             }
 
             string errorText = _errorBuilder.ToString();
-            if (NumericTextBoxVerifier.OutsideNumericRangeProvider != null && Parent != null)
+            if (NumericControlVerifier.OutsideNumericRangeProvider != null && Parent != null)
             {
-                NumericTextBoxVerifier.OutsideNumericRangeProvider.SetErrorWithInterface(Parent, errorText);
+                NumericControlVerifier.OutsideNumericRangeProvider.SetErrorWithInterface(Parent, errorText);
             }
 
             return isValid;

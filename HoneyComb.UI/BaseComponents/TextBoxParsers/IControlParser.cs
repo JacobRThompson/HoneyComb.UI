@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Honeycomb.UI.BaseComponents.TextBoxParsers
 {
-    public interface ITextBoxParser
+    public interface IControlParser
     {
         public const string DEFAULT_SUFFIX = "";
         public const string DEFAULT_PREFIX = "";
     }
 
-    public interface ITextBoxParser<T> : ITextBoxParser
+    public interface IControlParser<T> : IControlParser
         where T : struct
     {     
         bool TryParse(in string text, out T result);

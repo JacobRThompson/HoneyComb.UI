@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Honeycomb.UI.BaseComponents.TextBoxParsers
 {
-    public class BooleanTextBoxParser : ITextBoxParser<bool>
+    public class BooleanControlParser : IControlParser<bool>
     {
         public const string TRUE_LABEL_DEFAULT = "Yes";
         public const string FALSE_LABEL_DEFAULT = "No";
 
         private readonly IAffixer<bool> _affixer;
 
-        public BooleanTextBoxParser()
+        public BooleanControlParser()
         {
             _affixer = new Affixer<bool>();         
         }

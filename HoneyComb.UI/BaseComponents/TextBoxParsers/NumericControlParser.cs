@@ -11,14 +11,14 @@ using System.Xml;
 namespace Honeycomb.UI.BaseComponents.TextBoxParsers
 {
 
-    public static class NumericTextBoxParser
+    public static class NumericControlParser
     {
 
         public const string FORMAT_STRING_DEFAULT = "";
         public const NumberStyles NUMERIC_STYLE_DEFAULT = NumberStyles.Number;
     }
 
-    public sealed class NumericTextBoxParser<T> : ITextBoxParser<T>
+    public sealed class NumericControlParser<T> : IControlParser<T>
          where T : struct, INumber<T>
     {
         
@@ -26,13 +26,13 @@ namespace Honeycomb.UI.BaseComponents.TextBoxParsers
         private readonly IAffixer<T> _affixer;
         private NumberStyles _numericStyle;
 
-        public NumericTextBoxParser()
+        public NumericControlParser()
         {
             _affixer = new Affixer<T>();
-            _numericStyle = NumericTextBoxParser.NUMERIC_STYLE_DEFAULT;
+            _numericStyle = NumericControlParser.NUMERIC_STYLE_DEFAULT;
         }
 
-        public string FormatString { get; set; } = NumericTextBoxParser.FORMAT_STRING_DEFAULT;
+        public string FormatString { get; set; } = NumericControlParser.FORMAT_STRING_DEFAULT;
         public NumberStyles NumericStyle
         {
             get => IsCurrency ?

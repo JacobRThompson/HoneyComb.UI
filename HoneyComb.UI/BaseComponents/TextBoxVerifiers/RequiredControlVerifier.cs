@@ -7,7 +7,7 @@ using HoneyComb.UI.Utils.Extensions;
 
 namespace Honeycomb.UI.BaseComponents.TextBoxVerifiers
 {
-    public static class RequiredTextBoxVerifier
+    public static class RequiredControlVerifier
     {
         public static readonly Guid TypeId = Guid.NewGuid();
         public const bool IS_REQUIRED_DEFAULT = false;
@@ -15,19 +15,19 @@ namespace Honeycomb.UI.BaseComponents.TextBoxVerifiers
         public static ErrorProvider? IsRequiredProvider { get; set; }
     }
 
-    public sealed class RequiredTextBoxVerifier<T>: ITextBoxVerifier<T>
+    public sealed class RequiredControlVerifier<T>: IControlVerifier<T>
         where T: struct
     {
-        public RequiredTextBoxVerifier(bool enabled)
+        public RequiredControlVerifier(bool enabled)
         {
             Enabled = enabled;
         }
 
-        public Guid TypeId => RequiredTextBoxVerifier.TypeId;
+        public Guid TypeId => RequiredControlVerifier.TypeId;
         public bool Enabled { get; set; }
 
         public Control? Parent { get;  set; }
-        public bool IsRequired { get; set; } = RequiredTextBoxVerifier.IS_REQUIRED_DEFAULT;
+        public bool IsRequired { get; set; } = RequiredControlVerifier.IS_REQUIRED_DEFAULT;
 
         
 
@@ -35,12 +35,12 @@ namespace Honeycomb.UI.BaseComponents.TextBoxVerifiers
         {
             bool isValid = parseResult.couldParse || !IsRequired;
 
-            string errorText = parseResult.couldParse ? string.Empty : RequiredTextBoxVerifier.IS_REQUIRED_MSG;
+            string errorText = parseResult.couldParse ? string.Empty : RequiredControlVerifier.IS_REQUIRED_MSG;
 
-            if (RequiredTextBoxVerifier.IsRequiredProvider != null && Parent!= null &&
-                RequiredTextBoxVerifier.IsRequiredProvider.GetError(Parent) != errorText)
+            if (RequiredControlVerifier.IsRequiredProvider != null && Parent!= null &&
+                RequiredControlVerifier.IsRequiredProvider.GetError(Parent) != errorText)
             {
-                RequiredTextBoxVerifier.IsRequiredProvider.SetErrorWithInterface(Parent, errorText);
+                RequiredControlVerifier.IsRequiredProvider.SetErrorWithInterface(Parent, errorText);
             }
 
             return isValid;

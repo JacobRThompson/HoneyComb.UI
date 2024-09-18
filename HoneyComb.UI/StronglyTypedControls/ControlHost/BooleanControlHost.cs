@@ -12,22 +12,22 @@ namespace Honeycomb.UI.StronglyTypedControls
     public class BooleanControlHost<TControl> : ValuedControlHost<TControl, bool>
         where TControl : Control, new()
     {
-        public BooleanControlHost(Dictionary<Guid, ITextBoxVerifier<bool>>? miscVerifiers = null) : base(
-            new BooleanTextBoxParser(),
+        public BooleanControlHost(Dictionary<Guid, IControlVerifier<bool>>? miscVerifiers = null) : base(
+            new BooleanControlParser(),
             miscVerifiers)
         { }
 
-        [DefaultValue(BooleanTextBoxParser.TRUE_LABEL_DEFAULT)]
+        [DefaultValue(BooleanControlParser.TRUE_LABEL_DEFAULT)]
         public string TrueLabel {
-            get => (Parser as BooleanTextBoxParser)!.TrueLabel; 
-            set => (Parser as BooleanTextBoxParser)!.TrueLabel = value;
+            get => (Parser as BooleanControlParser)!.TrueLabel; 
+            set => (Parser as BooleanControlParser)!.TrueLabel = value;
         }
 
-        [DefaultValue(BooleanTextBoxParser.FALSE_LABEL_DEFAULT)]
+        [DefaultValue(BooleanControlParser.FALSE_LABEL_DEFAULT)]
         public string FalseLabel
         {
-            get => (Parser as BooleanTextBoxParser)!.FalseLabel;
-            set => (Parser as BooleanTextBoxParser)!.FalseLabel = value;
+            get => (Parser as BooleanControlParser)!.FalseLabel;
+            set => (Parser as BooleanControlParser)!.FalseLabel = value;
         }
     }
 }

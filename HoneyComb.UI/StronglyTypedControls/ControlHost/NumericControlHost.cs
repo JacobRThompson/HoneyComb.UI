@@ -18,13 +18,13 @@ namespace Honeycomb.UI.StronglyTypedControls
         where TControl : Control, new()
         where T : struct, INumber<T>
     {
-        public NumericControlHost(Dictionary<Guid, ITextBoxVerifier<T>>? miscVerifiers = null) : base(
-            new NumericTextBoxParser<T>(),
-            new Dictionary<Guid, ITextBoxVerifier<T>>()
+        public NumericControlHost(Dictionary<Guid, IControlVerifier<T>>? miscVerifiers = null) : base(
+            new NumericControlParser<T>(),
+            new Dictionary<Guid, IControlVerifier<T>>()
             {
-                {NumericTextBoxVerifier.TypeId, new NumericTextBoxVerifier<T>(enabled: true) }
+                {NumericControlVerifier.TypeId, new NumericControlVerifier<T>(enabled: true) }
             }
-            .Concat(miscVerifiers ?? new Dictionary <Guid, ITextBoxVerifier<T>>()) 
+            .Concat(miscVerifiers ?? new Dictionary <Guid, IControlVerifier<T>>()) 
             .ToDictionary(x => x.Key,x => x.Value))
         {}
 
@@ -32,63 +32,63 @@ namespace Honeycomb.UI.StronglyTypedControls
         [DefaultValue(null)]
         public T? MinValue 
         {
-            get => (Verifiers[NumericTextBoxVerifier.TypeId] as NumericTextBoxVerifier<T>)!.MinValue; 
-            set => (Verifiers[NumericTextBoxVerifier.TypeId] as NumericTextBoxVerifier<T>)!.MinValue = value; 
+            get => (Verifiers[NumericControlVerifier.TypeId] as NumericControlVerifier<T>)!.MinValue; 
+            set => (Verifiers[NumericControlVerifier.TypeId] as NumericControlVerifier<T>)!.MinValue = value; 
         }
 
         [DefaultValue(null)]
         public T? MaxValue
         {
-            get => (Verifiers[NumericTextBoxVerifier.TypeId] as NumericTextBoxVerifier<T>)!.MaxValue;
-            set => (Verifiers[NumericTextBoxVerifier.TypeId] as NumericTextBoxVerifier<T>)!.MaxValue = value;
+            get => (Verifiers[NumericControlVerifier.TypeId] as NumericControlVerifier<T>)!.MaxValue;
+            set => (Verifiers[NumericControlVerifier.TypeId] as NumericControlVerifier<T>)!.MaxValue = value;
         }
 
         [DefaultValue(null)]
         public T? Modulus 
         {
-            get => (Verifiers[NumericTextBoxVerifier.TypeId] as NumericTextBoxVerifier<T>)!.Modulus;
-            set => (Verifiers[NumericTextBoxVerifier.TypeId] as NumericTextBoxVerifier<T>)!.Modulus = value;
+            get => (Verifiers[NumericControlVerifier.TypeId] as NumericControlVerifier<T>)!.Modulus;
+            set => (Verifiers[NumericControlVerifier.TypeId] as NumericControlVerifier<T>)!.Modulus = value;
         }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public TryGetter<T>? MinValueGetter
         {
-            get => (Verifiers[NumericTextBoxVerifier.TypeId] as NumericTextBoxVerifier<T>)!.MinValueGetter;
-            set => (Verifiers[NumericTextBoxVerifier.TypeId] as NumericTextBoxVerifier<T>)!.MinValueGetter = value;
+            get => (Verifiers[NumericControlVerifier.TypeId] as NumericControlVerifier<T>)!.MinValueGetter;
+            set => (Verifiers[NumericControlVerifier.TypeId] as NumericControlVerifier<T>)!.MinValueGetter = value;
         }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public TryGetter<T>? MaxValueGetter
         {
-            get => (Verifiers[NumericTextBoxVerifier.TypeId] as NumericTextBoxVerifier<T>)!.MaxValueGetter;
-            set => (Verifiers[NumericTextBoxVerifier.TypeId] as NumericTextBoxVerifier<T>)!.MaxValueGetter = value;
+            get => (Verifiers[NumericControlVerifier.TypeId] as NumericControlVerifier<T>)!.MaxValueGetter;
+            set => (Verifiers[NumericControlVerifier.TypeId] as NumericControlVerifier<T>)!.MaxValueGetter = value;
         }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public TryGetter<T>? ModuloGetter
         {
-            get => (Verifiers[NumericTextBoxVerifier.TypeId] as NumericTextBoxVerifier<T>)!.ModuloGetter;
-            set => (Verifiers[NumericTextBoxVerifier.TypeId] as NumericTextBoxVerifier<T>)!.ModuloGetter = value;
+            get => (Verifiers[NumericControlVerifier.TypeId] as NumericControlVerifier<T>)!.ModuloGetter;
+            set => (Verifiers[NumericControlVerifier.TypeId] as NumericControlVerifier<T>)!.ModuloGetter = value;
         }
 
         #endregion
 
 
-        [DefaultValue(NumericTextBoxParser.NUMERIC_STYLE_DEFAULT)]
+        [DefaultValue(NumericControlParser.NUMERIC_STYLE_DEFAULT)]
         public NumberStyles NumericStyle
         {
-            get => (Parser as NumericTextBoxParser<T>)!.NumericStyle;
-            set => (Parser as NumericTextBoxParser<T>)!.NumericStyle = value;
+            get => (Parser as NumericControlParser<T>)!.NumericStyle;
+            set => (Parser as NumericControlParser<T>)!.NumericStyle = value;
         }
 
-        [DefaultValue(NumericTextBoxParser.FORMAT_STRING_DEFAULT)]
+        [DefaultValue(NumericControlParser.FORMAT_STRING_DEFAULT)]
         public virtual string FormatString 
         {
-            get => (Parser as NumericTextBoxParser<T>)!.FormatString;
+            get => (Parser as NumericControlParser<T>)!.FormatString;
             set
             {
-                (Parser as NumericTextBoxParser<T>)!.FormatString = value;
-                (Verifiers[NumericTextBoxVerifier.TypeId] as NumericTextBoxVerifier<T>)!.FormatString = value;
+                (Parser as NumericControlParser<T>)!.FormatString = value;
+                (Verifiers[NumericControlVerifier.TypeId] as NumericControlVerifier<T>)!.FormatString = value;
             }
         } 
 

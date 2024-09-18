@@ -30,13 +30,16 @@
         {
             HoneyComb.UI.StronglyTypedControls.StronglyTypedTag stronglyTypedTag1 = new HoneyComb.UI.StronglyTypedControls.StronglyTypedTag();
             HoneyComb.UI.StronglyTypedControls.StronglyTypedTag stronglyTypedTag2 = new HoneyComb.UI.StronglyTypedControls.StronglyTypedTag();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DemoForm));
+            HoneyComb.UI.StronglyTypedControls.StronglyTypedTag stronglyTypedTag3 = new HoneyComb.UI.StronglyTypedControls.StronglyTypedTag();
             intComboBox1 = new Honeycomb.UI.StronglyTypedControls.ComboBoxes.IntComboBox();
             intTextBox1 = new Honeycomb.UI.StronglyTypedControls.TextBoxes.IntTextBox();
             button1 = new Button();
             button2 = new Button();
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            decimalCompositeFactor1 = new HoneyComb.UI.StronglyTypedControls.CompositeControls.DecimalCompositeFactor();
             label1 = new Label();
-            adaptiveFontLabel1 = new HoneyComb.UI.BaseComponents.AdaptiveFontLabel();
+            decimalTextBox1 = new Honeycomb.UI.StronglyTypedControls.TextBoxes.DecimalTextBox();
+            decimalCompositeFactor1.SuspendLayout();
             SuspendLayout();
             // 
             // intComboBox1
@@ -83,33 +86,57 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
+            // flowLayoutPanel1
+            // 
+            flowLayoutPanel1.Location = new Point(1315, 136);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(227, 96);
+            flowLayoutPanel1.TabIndex = 6;
+            // 
+            // decimalCompositeFactor1
+            // 
+            decimalCompositeFactor1.BackColor = SystemColors.ButtonShadow;
+            decimalCompositeFactor1.Controls.Add(label1);
+            decimalCompositeFactor1.Controls.Add(decimalTextBox1);
+            decimalCompositeFactor1.FactorBox = decimalTextBox1;
+            decimalCompositeFactor1.Label = label1;
+            decimalCompositeFactor1.Location = new Point(380, 64);
+            decimalCompositeFactor1.Name = "decimalCompositeFactor1";
+            decimalCompositeFactor1.Padding = new Padding(10);
+            decimalCompositeFactor1.Size = new Size(507, 93);
+            decimalCompositeFactor1.TabIndex = 7;
+            decimalCompositeFactor1.Text = "decimalCompositeFactor1";
+            // 
             // label1
             // 
-            label1.Location = new Point(640, 631);
+            label1.BackColor = SystemColors.ActiveCaption;
+            label1.Location = new Point(13, 19);
+            label1.Margin = new Padding(3, 0, 0, 0);
             label1.Name = "label1";
-            label1.Size = new Size(116, 61);
-            label1.TabIndex = 4;
+            label1.Size = new Size(129, 51);
+            label1.TabIndex = 8;
             label1.Text = "label1";
             // 
-            // adaptiveFontLabel1
+            // decimalTextBox1
             // 
-            adaptiveFontLabel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            adaptiveFontLabel1.AvailableFontSizes = (List<float>)resources.GetObject("adaptiveFontLabel1.AvailableFontSizes");
-            adaptiveFontLabel1.BackColor = SystemColors.ControlDark;
-            adaptiveFontLabel1.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
-            adaptiveFontLabel1.Location = new Point(177, 98);
-            adaptiveFontLabel1.Name = "adaptiveFontLabel1";
-            adaptiveFontLabel1.Size = new Size(528, 175);
-            adaptiveFontLabel1.TabIndex = 5;
-            adaptiveFontLabel1.Text = "This is some text that needs to be resized";
+            decimalTextBox1.Available = true;
+            decimalTextBox1.BackColor = SystemColors.Window;
+            decimalTextBox1.Location = new Point(172, 19);
+            decimalTextBox1.Margin = new Padding(30, 3, 3, 3);
+            decimalTextBox1.Name = "decimalTextBox1";
+            decimalTextBox1.Size = new Size(173, 31);
+            decimalTextBox1.TabIndex = 8;
+            stronglyTypedTag3.PasteableFromExcel = true;
+            decimalTextBox1.Tag = stronglyTypedTag3;
+            decimalTextBox1.TemporaryText = null;
             // 
             // DemoForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(2169, 1062);
-            Controls.Add(adaptiveFontLabel1);
-            Controls.Add(label1);
+            Controls.Add(decimalCompositeFactor1);
+            Controls.Add(flowLayoutPanel1);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(intTextBox1);
@@ -117,6 +144,7 @@
             DoubleBuffered = true;
             Name = "DemoForm";
             Text = "Form1";
+            decimalCompositeFactor1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -126,7 +154,10 @@
         private Honeycomb.UI.StronglyTypedControls.TextBoxes.IntTextBox intTextBox1;
         private Button button1;
         private Button button2;
+        private HoneyComb.UI.BaseComponents.FontScalingLabel adaptiveFontLabel1;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private HoneyComb.UI.StronglyTypedControls.CompositeControls.DecimalCompositeFactor decimalCompositeFactor1;
         private Label label1;
-        private HoneyComb.UI.BaseComponents.AdaptiveFontLabel adaptiveFontLabel1;
+        private Honeycomb.UI.StronglyTypedControls.TextBoxes.DecimalTextBox decimalTextBox1;
     }
 }
