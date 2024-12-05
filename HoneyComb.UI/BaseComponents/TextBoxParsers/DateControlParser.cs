@@ -12,7 +12,7 @@ namespace Honeycomb.UI.BaseComponents.TextBoxParsers
 
 
 
-    public sealed class DateTextBoxParser: ITextBoxParser<DateOnly>
+    public sealed class DateControlParser: IControlParser<DateOnly>
     {
         public const string FORMAT_STRING_DEFAULT = "";
         public const DateTimeStyles DATETIME_STYLE_DEFAULT = DateTimeStyles.None;
@@ -21,14 +21,14 @@ namespace Honeycomb.UI.BaseComponents.TextBoxParsers
         private DateTimeStyles _dateTimeStyle;
 
 
-        public DateTextBoxParser()
+        public DateControlParser()
         {
             _affixer = new Affixer<DateOnly>();
             _dateTimeStyle = DATETIME_STYLE_DEFAULT;
         }
 
 
-        public string FormatString { get; set; } = NumericTextBoxParser.FORMAT_STRING_DEFAULT;
+        public string FormatString { get; set; } = NumericControlParser.FORMAT_STRING_DEFAULT;
 
         public DateTimeStyles DateTimeStyle
         {

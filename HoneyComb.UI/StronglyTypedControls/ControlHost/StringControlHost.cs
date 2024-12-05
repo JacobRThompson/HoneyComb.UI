@@ -11,8 +11,8 @@ namespace Honeycomb.UI.StronglyTypedControls
     public class StringControlHost<TControl> : ValuedControlHost<TControl, ReadOnlyMemory<char>>
         where TControl : Control, new()
     {
-        public StringControlHost(Dictionary<Guid, ITextBoxVerifier<ReadOnlyMemory<char>>>? miscVerifiers = null) : base(
-           new StringTextboxParser(),
+        public StringControlHost(Dictionary<Guid, IControlVerifier<ReadOnlyMemory<char>>>? miscVerifiers = null) : base(
+           new StringControlParser(),
            miscVerifiers)
         { }
     }

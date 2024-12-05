@@ -42,21 +42,21 @@ namespace Honeycomb.UI.StronglyTypedControls
         public event EventHandler HighlightedChanged = delegate { };
 
     
-        public ValuedControlHost(ITextBoxParser<T> parser, Dictionary<Guid, ITextBoxVerifier<T>>?miscVerifiers = null)
+        public ValuedControlHost(IControlParser<T> parser, Dictionary<Guid, IControlVerifier<T>>?miscVerifiers = null)
         {
             Child = new();
             RegisterChildHandlers(Child);
 
             Parser = parser;
-            Verifiers = new Dictionary<Guid, ITextBoxVerifier<T>>()
+            Verifiers = new Dictionary<Guid, IControlVerifier<T>>()
             {
-                {RequiredTextBoxVerifier.TypeId, new RequiredTextBoxVerifier<T>(enabled: true) },
+                {RequiredControlVerifier.TypeId, new RequiredControlVerifier<T>(enabled: true) },
             }
-            .Concat(miscVerifiers ?? new Dictionary<Guid, ITextBoxVerifier<T>>()).
+            .Concat(miscVerifiers ?? new Dictionary<Guid, IControlVerifier<T>>()).
             ToDictionary(x => x.Key, x=> x.Value);
 
 
-            foreach (ITextBoxVerifier<T> verifier in Verifiers.Values)
+            foreach (IControlVerifier<T> verifier in Verifiers.Values)
             {
                 verifier.Parent = this;
             }
@@ -109,7 +109,7 @@ namespace Honeycomb.UI.StronglyTypedControls
 
         public  Dictionary<Guid,ITextBoxVerifier<T>> Verifiers { get; }
 
-        public  ITextBoxParser<T> Parser { get; }
+        public  IControlParser<T> Parser { get; }
 
 
         public event EventHandler AvailabilityChanged = delegate { };
@@ -225,7 +225,7 @@ namespace Honeycomb.UI.StronglyTypedControls
             
             bool couldVerify = true;
 
-            IEnumerable<ITextBoxVerifier<T>> enabledVerifiers =
+            IEnumerable<IControlVerifier<T>> enabledVerifiers =
                 from verifier in Verifiers.Values
                 where verifier.Enabled
                 select verifier;
@@ -258,25 +258,25 @@ namespace Honeycomb.UI.StronglyTypedControls
             set => (Tag as IExcelPasteTarget)!.PasteableFromExcel = value;
         }
 
-        [DefaultValue(RequiredTextBoxVerifier.IS_REQUIRED_DEFAULT)]
+        [DefaultValue(RequiredControlVerifier.IS_REQUIRED_DEFAULT)]
         public bool IsRequired
         {
-            get => (Verifiers[RequiredTextBoxVerifier.TypeId] as RequiredTextBoxVerifier<T>)!.IsRequired;
-            set => (Verifiers[RequiredTextBoxVerifier.TypeId] as RequiredTextBoxVerifier<T>)!.IsRequired = value;
+            get => (Verifiers[RequiredControlVerifier.TypeId] as RequiredControlVerifier<T>)!.IsRequired;
+            set => (Verifiers[RequiredControlVerifier.TypeId] as RequiredControlVerifier<T>)!.IsRequired = value;
         }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public TControl Child { get; set; }
 
      
-        [DefaultValue(ITextBoxParser.DEFAULT_SUFFIX)]
+        [DefaultValue(IControlParser.DEFAULT_SUFFIX)]
         public string Suffix 
         { 
             get => Parser.Suffix; 
             set => Parser.Suffix = value; 
         } 
 
-        [DefaultValue(ITextBoxParser.DEFAULT_PREFIX)]
+        [DefaultValue(IControlParser.DEFAULT_PREFIX)]
         public string Prefix 
         {
             get => Parser.Prefix;

@@ -17,7 +17,7 @@ namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
 
         public DoubleComboBox(): this(new()) { }
 
-        public DoubleComboBox(Dictionary<Guid, ITextBoxVerifier<double>> miscVerifiers) : 
+        public DoubleComboBox(Dictionary<Guid, IControlVerifier<double>> miscVerifiers) : 
             base(
                 (in string? s, NumberStyles style, IFormatProvider? provider, out double result) => double.TryParse(s, style, provider, out result),
                 (x) => x / 100,

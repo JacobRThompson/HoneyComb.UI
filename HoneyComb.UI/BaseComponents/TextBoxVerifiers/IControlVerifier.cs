@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Honeycomb.UI.BaseComponents.TextBoxVerifiers
 {
-    public interface ITextBoxVerifier<T>
+    public interface IControlVerifier<T>
         where T : struct
     {
 

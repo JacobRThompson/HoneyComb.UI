@@ -22,7 +22,7 @@ namespace Honeycomb.UI.BaseComponents.TextBoxVerifiers
     /// Verifier that checks if a value passed to a valued comboBox lies within the continuous range defined by the comboBox's largest and smallest item
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public sealed class ComboBoxRangeVerifier<TControl, T> : ITextBoxVerifier<T>
+    public sealed class ComboBoxRangeVerifier<TControl, T> : IControlVerifier<T>
         where TControl : ComboBox, new()
         where T : struct, IEquatable<T>, IComparisonOperators<T, T, bool>, IMinMaxValue<T>
     {

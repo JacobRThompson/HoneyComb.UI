@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace HoneyComb.UI.BaseComponents
 {
-    public partial class AdaptiveFontLabel : Label
+    public partial class FontScalingLabel : Label
     {
 
         const bool AUTO_SIZE_DEFAULT = false;
@@ -19,7 +19,7 @@ namespace HoneyComb.UI.BaseComponents
         private List<float> _availableFontSizes = new();
         private Dictionary<float, Font> _generatedFonts = new();
 
-        public AdaptiveFontLabel()
+        public FontScalingLabel()
         {
             AutoSize = AUTO_SIZE_DEFAULT;
             AutoScaleFont = AUTO_SCALE_FONT_DEFAULT;
@@ -64,7 +64,7 @@ namespace HoneyComb.UI.BaseComponents
             get => base.Font; 
             set
             {
-                if (AutoScaleFont)
+                if (AutoScaleFont && base.Font != value)
                 {
                     GenerateAvailableFonts();
                     ScaleFontForBestFit(value);
@@ -83,8 +83,6 @@ namespace HoneyComb.UI.BaseComponents
                    ptSize => new Font(base.Font.FontFamily, ptSize, base.Font.Style)
                );
         }
-
-
 
         void ScaleFontForBestFit(Font? fallbackValue = null)
         {

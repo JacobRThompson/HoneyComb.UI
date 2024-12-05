@@ -10,6 +10,16 @@ namespace HoneyComb.UI.BaseComponents.MultiSelect
 {
     public static class Algorithms
     {
+        /// <summary>
+        /// Generates rows of controls based on their screen bounds.
+        /// </summary>
+        /// <param name="selectedControls">The collection of controls to be organized into rows.</param>
+        /// <returns>A list of arrays, where each array represents a row of controls.</returns>
+        /// <remarks>
+        /// This method organizes controls into rows by comparing their screen bounds.
+        /// Controls are first sorted by their X coordinate, and then grouped into rows
+        /// based on their Y coordinate.
+        /// </remarks>
         public static List<Control[]> GenerateRows(IEnumerable<Control> selectedControls)
         {
             var unsortedControls = selectedControls
