@@ -84,6 +84,29 @@ namespace Honeycomb.UI.StronglyTypedControls
             protected set; 
         } = false;
 
+
+        public virtual T? Value
+        {
+            get
+            {
+                if (TryGetValue(out T value))
+                {
+                    return value;
+                }
+                else
+                {
+                    return null;
+                }
+            }   
+            set
+            {
+                if (value.HasValue)
+                {
+                    SetValue(value.Value);
+                }
+            }
+        }
+
         public  Dictionary<Guid,ITextBoxVerifier<T>> Verifiers { get; }
 
         public  ITextBoxParser<T> Parser { get; }
@@ -91,7 +114,7 @@ namespace Honeycomb.UI.StronglyTypedControls
 
         public event EventHandler AvailabilityChanged = delegate { };
 
-        void SetChildText(in string newValue)
+        protected void SetChildText(in string newValue)
         {
             switch (Child)
             {
@@ -141,9 +164,9 @@ namespace Honeycomb.UI.StronglyTypedControls
 
         bool TryGetPrevValue(out T value)
         {
-            if (!Dirty)
+            if (!Dirty && _prevValue.HasValue)
             {
-                value = _prevValue ?? default;
+                value = _prevValue.Value;
                 return true;
             }
             else

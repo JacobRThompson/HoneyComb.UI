@@ -19,6 +19,8 @@ namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
 
         public IntComboBox(Dictionary<Guid, ITextBoxVerifier<int>> miscVerifiers) : 
             base(
+                (in string? s, NumberStyles style, IFormatProvider? provider, out int result) => int.TryParse(s, style, provider, out result),
+                (x) => x / 100,
                 //Add ComboBox verifier in addition to all other passed/inherited verifiers
                 new Dictionary<Guid, ITextBoxVerifier<int>>()
                 {
@@ -51,6 +53,23 @@ namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
             {
                 base.FormatString = value;
                 (Verifiers[ComboBoxRangeVerifier.TypeId] as ComboBoxRangeVerifier<HoneycombComboBox, int>)!.FormatString = value;
+            }
+        }
+
+        public override int? Value
+        {
+            get => base.Value;
+            set
+            {
+                if (value.HasValue)
+                {
+                    base.Value = value;
+                }
+                else
+                {
+                    SetChildText(NullLabel);
+                }
+
             }
         }
 

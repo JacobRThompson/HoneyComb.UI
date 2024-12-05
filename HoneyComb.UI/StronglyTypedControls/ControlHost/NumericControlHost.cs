@@ -10,6 +10,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using HoneyComb.UI.BaseComponents.TextBoxParsers;
 
 
 namespace Honeycomb.UI.StronglyTypedControls
@@ -18,8 +19,24 @@ namespace Honeycomb.UI.StronglyTypedControls
         where TControl : Control, new()
         where T : struct, INumber<T>
     {
-        public NumericControlHost(Dictionary<Guid, ITextBoxVerifier<T>>? miscVerifiers = null) : base(
-            new NumericTextBoxParser<T>(),
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tryParseFunction">
+        ///     Function that converts a string to the a member of type <typeparamref name="T"/>. Workaround for limitation of current implementation of static interface members.
+        /// </param>
+        /// <param name="divideBy100Funcion">
+        ///     Function that divides a member of type <typeparamref name="T"/> by 100. Workaround for limitation of current implementation of static interface members.
+        /// </param>
+        /// <param name="miscVerifiers"></param>
+        public NumericControlHost(
+            TryParseFunction<T> tryParseFunction,
+            Func<T, T> divideBy100Funcion,
+            Dictionary<Guid, ITextBoxVerifier<T>>? miscVerifiers = null
+        ) : base(
+            new NumericTextBoxParser<T>(tryParseFunction, divideBy100Funcion),
             new Dictionary<Guid, ITextBoxVerifier<T>>()
             {
                 {NumericTextBoxVerifier.TypeId, new NumericTextBoxVerifier<T>(enabled: true) }

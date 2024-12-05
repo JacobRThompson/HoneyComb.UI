@@ -19,6 +19,8 @@ namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
 
         public DoubleComboBox(Dictionary<Guid, ITextBoxVerifier<double>> miscVerifiers) : 
             base(
+                (in string? s, NumberStyles style, IFormatProvider? provider, out double result) => double.TryParse(s, style, provider, out result),
+                (x) => x / 100,
                 new Dictionary<Guid, ITextBoxVerifier<double>>()
                 {   
                     //Add ComboBox verifier in addition to all other passed/inherited verifiers
@@ -50,6 +52,22 @@ namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
             {
                 base.FormatString = value;
                 (Verifiers[ComboBoxRangeVerifier.TypeId] as ComboBoxRangeVerifier<HoneycombComboBox, double>)!.FormatString = value;
+            }
+        }
+
+        public override double? Value { 
+            get => base.Value;
+            set
+            {
+                if(value.HasValue)
+                {
+                    base.Value = value;
+                }
+                else
+                {
+                    SetChildText(NullLabel);
+                }
+               
             }
         }
 

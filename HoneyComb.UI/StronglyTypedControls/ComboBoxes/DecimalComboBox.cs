@@ -19,8 +19,11 @@ namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
     {
         public DecimalComboBox() : this(new()) { }
 
-        public DecimalComboBox(Dictionary<Guid, ITextBoxVerifier<decimal>> miscVerifiers) : 
+        public DecimalComboBox(
+            Dictionary<Guid, ITextBoxVerifier<decimal>> miscVerifiers) : 
             base(
+                (in string? s, NumberStyles style, IFormatProvider? provider, out decimal result) => decimal.TryParse (s, style, provider, out result),
+                (x) => x/100,
                 new Dictionary<Guid, ITextBoxVerifier<decimal>>()
                 {
                      //Add ComboBox verifier in addition to all other passed/inherited verifiers
@@ -54,6 +57,24 @@ namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
                 (Verifiers[ComboBoxRangeVerifier.TypeId] as ComboBoxRangeVerifier<HoneycombComboBox, decimal>)!.FormatString = value;
             }
         }
+
+        public override decimal? Value
+        {
+            get => base.Value;
+            set
+            {
+                if (value.HasValue)
+                {
+                    base.Value = value;
+                }
+                else
+                {
+                    SetChildText(NullLabel);
+                }
+
+            }
+        }
+
 
         [DefaultValue(ComboBoxHostExtension.NULL_LABEL_DEFAULT)]
         public string NullLabel

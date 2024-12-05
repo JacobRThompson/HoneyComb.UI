@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HoneyComb.UI.BaseComponents;
+using HoneyComb.UI.BaseComponents.TextBoxParsers;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -13,7 +15,7 @@ namespace Honeycomb.UI.BaseComponents.TextBoxParsers
 
     public static class NumericTextBoxParser
     {
-
+        
         public const string FORMAT_STRING_DEFAULT = "";
         public const NumberStyles NUMERIC_STYLE_DEFAULT = NumberStyles.Number;
     }
@@ -22,12 +24,19 @@ namespace Honeycomb.UI.BaseComponents.TextBoxParsers
          where T : struct, INumber<T>
     {
         
-
+        private readonly TryParseFunction<T> _tryParseFunc;
+        private readonly Func<T, T> _divideBy100Func;
         private readonly IAffixer<T> _affixer;
         private NumberStyles _numericStyle;
 
-        public NumericTextBoxParser()
+        public NumericTextBoxParser(
+            TryParseFunction<T> tryParseFunction,
+            Func<T, T> divideBy100Funcion)
         {
+
+            _tryParseFunc = tryParseFunction;
+            _divideBy100Func = divideBy100Funcion;
+
             _affixer = new Affixer<T>();
             _numericStyle = NumericTextBoxParser.NUMERIC_STYLE_DEFAULT;
         }
@@ -63,25 +72,18 @@ namespace Honeycomb.UI.BaseComponents.TextBoxParsers
             //generate text that we pass to the appropriate parse funciton. We may strip a percent sign here.
             string parsedText = IsPercent ? unaffixedText.TrimEnd('%') : unaffixedText;
 
-            result = default;
-            try
+            if(_tryParseFunc.Invoke(parsedText, NumericStyle, CultureInfo.CurrentCulture, out result))
             {
-                //We parse passed text and then divide to account for the use of a precent if needed.
-                dynamic admissionOfFailure = result switch
-                {
-                    int _ => int.Parse(parsedText, NumericStyle, CultureInfo.CurrentCulture) / (IsPercent ? 100 : 1),
-                    double _ => double.Parse(parsedText, NumericStyle, CultureInfo.CurrentCulture) / (IsPercent ? 100d : 1d),
-                    decimal _ => decimal.Parse(parsedText, NumericStyle, CultureInfo.CurrentCulture) / (IsPercent ? 100m : 1m),
-                    _ => throw new NotImplementedException()
-                };
-
-                result = admissionOfFailure;
+                if (IsPercent) { result = _divideBy100Func.Invoke(result); }
+               
                 return true;
             }
-            catch (FormatException)
+            else
             {
                 return false;
             }
+
+
 
         }
 

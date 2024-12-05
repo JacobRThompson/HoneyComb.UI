@@ -8,9 +8,13 @@ using System.ComponentModel;
 using Honeycomb.UI.BaseComponents;
 namespace Honeycomb.UI.StronglyTypedControls.TextBoxes
 {
-    public class DoubleTextBox : NumericControlHost<ValidateOnEnterTextBox, Double>
+    public class DoubleTextBox : NumericControlHost<ValidateOnEnterTextBox, double>
     {
-        
+        public DoubleTextBox() : base(
+          (in string? s, NumberStyles style, IFormatProvider? provider, out double result) => double.TryParse(s, style, provider, out result),
+          (x) => x / 100)
+        {
+        }
 
     }
 }
