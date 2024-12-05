@@ -34,10 +34,10 @@ namespace Honeycomb.UI.StronglyTypedControls
         public NumericControlHost(
             TryParseFunction<T> tryParseFunction,
             Func<T, T> divideBy100Funcion,
-            Dictionary<Guid, ITextBoxVerifier<T>>? miscVerifiers = null
+            Dictionary<Guid, IControlVerifier<T>>? miscVerifiers = null
         ) : base(
-            new NumericTextBoxParser<T>(tryParseFunction, divideBy100Funcion),
-            new Dictionary<Guid, ITextBoxVerifier<T>>()
+            new NumericControlParser<T>(tryParseFunction, divideBy100Funcion),
+            new Dictionary<Guid, IControlVerifier<T>>()
             {
                 {NumericControlVerifier.TypeId, new NumericControlVerifier<T>(enabled: true) }
             }

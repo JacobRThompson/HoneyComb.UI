@@ -107,7 +107,7 @@ namespace Honeycomb.UI.StronglyTypedControls
             }
         }
 
-        public  Dictionary<Guid,ITextBoxVerifier<T>> Verifiers { get; }
+        public  Dictionary<Guid,IControlVerifier<T>> Verifiers { get; }
 
         public  IControlParser<T> Parser { get; }
 

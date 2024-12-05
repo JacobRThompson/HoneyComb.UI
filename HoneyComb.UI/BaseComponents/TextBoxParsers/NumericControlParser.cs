@@ -29,7 +29,7 @@ namespace Honeycomb.UI.BaseComponents.TextBoxParsers
         private readonly IAffixer<T> _affixer;
         private NumberStyles _numericStyle;
 
-        public NumericTextBoxParser(
+        public NumericControlParser(
             TryParseFunction<T> tryParseFunction,
             Func<T, T> divideBy100Funcion)
         {

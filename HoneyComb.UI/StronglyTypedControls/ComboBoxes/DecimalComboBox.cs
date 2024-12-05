@@ -20,11 +20,11 @@ namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
         public DecimalComboBox() : this(new()) { }
 
         public DecimalComboBox(
-            Dictionary<Guid, ITextBoxVerifier<decimal>> miscVerifiers) : 
+            Dictionary<Guid, IControlVerifier<decimal>> miscVerifiers) : 
             base(
                 (in string? s, NumberStyles style, IFormatProvider? provider, out decimal result) => decimal.TryParse (s, style, provider, out result),
                 (x) => x/100,
-                new Dictionary<Guid, ITextBoxVerifier<decimal>>()
+                new Dictionary<Guid, IControlVerifier<decimal>>()
                 {
                      //Add ComboBox verifier in addition to all other passed/inherited verifiers
                     {ComboBoxRangeVerifier.TypeId, new ComboBoxRangeVerifier<HoneycombComboBox,decimal>(enabled: true) }

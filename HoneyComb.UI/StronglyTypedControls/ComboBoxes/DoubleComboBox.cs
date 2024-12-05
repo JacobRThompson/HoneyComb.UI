@@ -21,7 +21,7 @@ namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
             base(
                 (in string? s, NumberStyles style, IFormatProvider? provider, out double result) => double.TryParse(s, style, provider, out result),
                 (x) => x / 100,
-                new Dictionary<Guid, ITextBoxVerifier<double>>()
+                new Dictionary<Guid, IControlVerifier<double>>()
                 {   
                     //Add ComboBox verifier in addition to all other passed/inherited verifiers
                     {ComboBoxRangeVerifier.TypeId, new ComboBoxRangeVerifier<HoneycombComboBox,double>(enabled: true) }
