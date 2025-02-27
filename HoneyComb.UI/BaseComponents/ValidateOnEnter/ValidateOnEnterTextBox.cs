@@ -9,12 +9,13 @@ using System.Threading.Tasks;
 namespace Honeycomb.UI.BaseComponents
 {
     [ToolboxItem(Globals.SHOW_BASE_COMPONENTS_IN_TOOLBOX)]
-    public  class ValidateOnEnterTextBox: TextBox, IInvokeValidation
+    public  class ValidateOnEnterTextBox: TextBox, ISelectable
     {
-        public void InvokeValidation(CancelEventArgs? e)
-        {
-            OnValidating(e ?? new());
-        }
+
+        [DefaultValue(true)]
+        public bool Selectable { get; set; } = true;
+
+      
 
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
@@ -27,6 +28,12 @@ namespace Honeycomb.UI.BaseComponents
             }
 
             base.OnKeyPress(e);
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            (this as ISelectable).WndProc(ref m);
+            base.WndProc(ref m);
         }
     }
 }

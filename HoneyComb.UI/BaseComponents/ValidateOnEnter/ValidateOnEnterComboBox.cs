@@ -9,25 +9,20 @@ using System.Threading.Tasks;
 namespace Honeycomb.UI.BaseComponents
 {
     [ToolboxItem(Globals.SHOW_BASE_COMPONENTS_IN_TOOLBOX)]
-    public class ValidateOnEnterComboBox: ComboBox, IInvokeValidation
+    public class ValidateOnEnterComboBox: ComboBox
     {
-        public void InvokeValidation(CancelEventArgs? e)
-        {
-            OnValidating(e ?? new());
-        }
 
-        
-        protected override void OnKeyPress(KeyPressEventArgs e)
+
+        protected override void OnKeyDown(KeyEventArgs e)
         {
-            switch (e.KeyChar)
+            base.OnKeyDown(e);
+            switch (e.KeyCode)
             {
-                case (char)Keys.Enter:
+                case Keys.Enter:
                     OnValidating(new());
                     e.Handled = true;
                     break;
             }
-
-            base.OnKeyPress(e);
         }
 
         protected override void OnPaint(PaintEventArgs e)

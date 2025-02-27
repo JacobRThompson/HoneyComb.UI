@@ -12,7 +12,7 @@ using Honeycomb.UI.BaseComponents;
 namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
 {
     [ToolboxItem(Globals.SHOW_BASE_COMPONENTS_IN_TOOLBOX)]
-    public class DoubleComboBox : NumericControlHost<HoneycombComboBox, double>
+    public class DoubleComboBox : NumericControlHost<HoneycombComboBox, double>, ISelectable
     {
 
         public DoubleComboBox(): this(new()) { }
@@ -90,6 +90,12 @@ namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
         {
             get => ComboBoxExtension.AutoSort;
             set => ComboBoxExtension.AutoSort = value;
+        }
+
+        public bool Selectable
+        {
+            get => Child.Selectable;
+            set => Child.Selectable = value;
         }
 
         public IEnumerable<double> RawValues

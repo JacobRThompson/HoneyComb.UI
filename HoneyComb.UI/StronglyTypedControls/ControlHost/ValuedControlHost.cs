@@ -297,17 +297,16 @@ namespace Honeycomb.UI.StronglyTypedControls
             AvailabilityChanged?.Invoke(this, e);
         }
 
-        protected override void OnKeyPress(KeyPressEventArgs e)
+        protected override void OnKeyDown(KeyEventArgs e)
         {
-            switch (e.KeyChar)
+            base.OnKeyDown(e);
+            switch (e.KeyCode)
             {
-                case (char)Keys.Enter:
+                case Keys.Enter:
                     OnValidating(new());
                     e.Handled = true;
                     break;
             }
-
-            base.OnKeyPress(e);
         }
 
         #region IHighlightedChanged

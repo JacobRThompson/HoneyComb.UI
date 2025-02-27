@@ -14,7 +14,7 @@ namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
 {
 
     [ToolboxItem(Globals.SHOW_BASE_COMPONENTS_IN_TOOLBOX)]
-    public class StringComboBox: StringControlHost<HoneycombComboBox>
+    public class StringComboBox: StringControlHost<HoneycombComboBox>, ISelectable
     {
         
         protected NumberStyles _numericStyle = NumberStyles.Number;
@@ -91,6 +91,12 @@ namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
         {
             get => ComboBoxExtension.AutoSort;
             set => ComboBoxExtension.AutoSort = value;
+        }
+
+        public bool Selectable
+        {
+            get => Child.Selectable;
+            set => Child.Selectable = value;
         }
 
         public IEnumerable<ReadOnlyMemory<char>> RawValues

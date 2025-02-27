@@ -118,7 +118,7 @@
             // LoadSelectedPolicy
             // 
             LoadSelectedPolicy.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            LoadSelectedPolicy.Location = new Point(730, 277);
+            LoadSelectedPolicy.Location = new Point(751, 277);
             LoadSelectedPolicy.Name = "LoadSelectedPolicy";
             LoadSelectedPolicy.Size = new Size(79, 23);
             LoadSelectedPolicy.TabIndex = 1;
@@ -142,7 +142,7 @@
             UnderWriterNameBox.Location = new Point(110, 24);
             UnderWriterNameBox.Margin = new Padding(0, 0, 0, 1);
             UnderWriterNameBox.Name = "UnderWriterNameBox";
-            UnderWriterNameBox.Size = new Size(195, 23);
+            UnderWriterNameBox.Size = new Size(215, 23);
             UnderWriterNameBox.TabIndex = 5;
             // 
             // PolicyNameBox
@@ -152,13 +152,13 @@
             PolicyNameBox.Location = new Point(110, 48);
             PolicyNameBox.Margin = new Padding(0, 0, 0, 1);
             PolicyNameBox.Name = "PolicyNameBox";
-            PolicyNameBox.Size = new Size(195, 23);
+            PolicyNameBox.Size = new Size(215, 23);
             PolicyNameBox.TabIndex = 6;
             // 
             // StateBox
             // 
             StateBox.Dock = DockStyle.Fill;
-            StateBox.Location = new Point(410, 24);
+            StateBox.Location = new Point(430, 24);
             StateBox.Margin = new Padding(0, 0, 0, 1);
             StateBox.Name = "StateBox";
             StateBox.Size = new Size(100, 23);
@@ -201,14 +201,14 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
-            tableLayoutPanel1.Size = new Size(628, 72);
+            tableLayoutPanel1.Size = new Size(648, 72);
             tableLayoutPanel1.TabIndex = 10;
             // 
             // label9
             // 
             label9.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             label9.AutoSize = true;
-            label9.Location = new Point(374, 24);
+            label9.Location = new Point(394, 24);
             label9.Name = "label9";
             label9.Size = new Size(33, 24);
             label9.TabIndex = 11;
@@ -229,12 +229,14 @@
             // SaveDateEndBox
             // 
             SaveDateEndBox.Anchor = AnchorStyles.Left;
+            SaveDateEndBox.Checked = false;
             SaveDateEndBox.Format = DateTimePickerFormat.Short;
             SaveDateEndBox.Location = new Point(228, 0);
             SaveDateEndBox.Margin = new Padding(0, 0, 0, 1);
             SaveDateEndBox.MinimumSize = new Size(77, 23);
             SaveDateEndBox.Name = "SaveDateEndBox";
-            SaveDateEndBox.Size = new Size(77, 23);
+            SaveDateEndBox.ShowCheckBox = true;
+            SaveDateEndBox.Size = new Size(97, 23);
             SaveDateEndBox.TabIndex = 4;
             // 
             // label5
@@ -290,7 +292,7 @@
             // 
             label7.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             label7.AutoSize = true;
-            label7.Location = new Point(328, 0);
+            label7.Location = new Point(348, 0);
             label7.Name = "label7";
             label7.Size = new Size(79, 24);
             label7.TabIndex = 7;
@@ -302,7 +304,7 @@
             EffectiveDateStartBox.Anchor = AnchorStyles.Left;
             EffectiveDateStartBox.Checked = false;
             EffectiveDateStartBox.Format = DateTimePickerFormat.Short;
-            EffectiveDateStartBox.Location = new Point(410, 0);
+            EffectiveDateStartBox.Location = new Point(430, 0);
             EffectiveDateStartBox.Margin = new Padding(0, 0, 0, 1);
             EffectiveDateStartBox.MinimumSize = new Size(77, 23);
             EffectiveDateStartBox.Name = "EffectiveDateStartBox";
@@ -316,7 +318,7 @@
             label8.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             label8.AutoSize = true;
             label8.FlatStyle = FlatStyle.Popup;
-            label8.Location = new Point(510, 0);
+            label8.Location = new Point(530, 0);
             label8.Margin = new Padding(0);
             label8.Name = "label8";
             label8.Size = new Size(18, 24);
@@ -329,7 +331,7 @@
             EffectiveDateEndBox.Anchor = AnchorStyles.Left;
             EffectiveDateEndBox.Checked = false;
             EffectiveDateEndBox.Format = DateTimePickerFormat.Short;
-            EffectiveDateEndBox.Location = new Point(528, 0);
+            EffectiveDateEndBox.Location = new Point(548, 0);
             EffectiveDateEndBox.Margin = new Padding(0, 0, 0, 1);
             EffectiveDateEndBox.MinimumSize = new Size(77, 23);
             EffectiveDateEndBox.Name = "EffectiveDateEndBox";
@@ -341,7 +343,7 @@
             // 
             label11.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             label11.AutoSize = true;
-            label11.Location = new Point(344, 48);
+            label11.Location = new Point(364, 48);
             label11.Name = "label11";
             label11.Size = new Size(63, 24);
             label11.TabIndex = 12;
@@ -353,7 +355,7 @@
             PolicyTypeBox.Dock = DockStyle.Fill;
             PolicyTypeBox.FormattingEnabled = true;
             PolicyTypeBox.Items.AddRange(new object[] { "New", "Renewal" });
-            PolicyTypeBox.Location = new Point(410, 48);
+            PolicyTypeBox.Location = new Point(430, 48);
             PolicyTypeBox.Margin = new Padding(0, 0, 0, 1);
             PolicyTypeBox.Name = "PolicyTypeBox";
             PolicyTypeBox.Size = new Size(100, 23);
@@ -373,7 +375,7 @@
             // RefreshAvailablePolicies
             // 
             RefreshAvailablePolicies.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            RefreshAvailablePolicies.Location = new Point(645, 277);
+            RefreshAvailablePolicies.Location = new Point(666, 277);
             RefreshAvailablePolicies.Name = "RefreshAvailablePolicies";
             RefreshAvailablePolicies.Size = new Size(79, 23);
             RefreshAvailablePolicies.TabIndex = 12;

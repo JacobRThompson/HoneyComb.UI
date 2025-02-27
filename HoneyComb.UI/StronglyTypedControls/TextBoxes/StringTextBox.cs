@@ -10,9 +10,14 @@ using Honeycomb.UI.BaseComponents;
 namespace Honeycomb.UI.StronglyTypedControls.TextBoxes
 {
     [ToolboxItem(Globals.SHOW_BASE_COMPONENTS_IN_TOOLBOX)]
-    public class StringTextBox: StringControlHost<ValidateOnEnterTextBox>
+    public class StringTextBox: StringControlHost<ValidateOnEnterTextBox> , ISelectable
     {
-      
+        public bool Selectable
+        {
+            get => Child.Selectable;
+            set => Child.Selectable = value;
+        }   
     }
+
 }
 

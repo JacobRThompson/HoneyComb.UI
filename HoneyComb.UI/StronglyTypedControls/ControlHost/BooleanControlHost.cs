@@ -29,5 +29,8 @@ namespace Honeycomb.UI.StronglyTypedControls
             get => (Parser as BooleanControlParser)!.FalseLabel;
             set => (Parser as BooleanControlParser)!.FalseLabel = value;
         }
+
+
+
     }
 }

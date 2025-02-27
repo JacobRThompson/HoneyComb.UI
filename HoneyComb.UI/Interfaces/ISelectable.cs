@@ -8,8 +8,6 @@ namespace Honeycomb.UI
 {
     public interface ISelectable
     {
-        public const bool SELECTABLE = true;
-
         public bool Selectable { get; set; }
 
 

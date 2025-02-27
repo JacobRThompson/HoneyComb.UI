@@ -9,7 +9,7 @@ using Honeycomb.UI.BaseComponents;
 namespace Honeycomb.UI.StronglyTypedControls.TextBoxes
 {
     [ToolboxItem(Globals.SHOW_BASE_COMPONENTS_IN_TOOLBOX)]
-    public class IntTextBox : NumericControlHost<ValidateOnEnterTextBox, int>
+    public class IntTextBox : NumericControlHost<ValidateOnEnterTextBox, int>, ISelectable
     {
         public IntTextBox() : base(
            (in string? s, NumberStyles style, IFormatProvider? provider, out int result) => int.TryParse(s, style, provider, out result),
@@ -18,5 +18,10 @@ namespace Honeycomb.UI.StronglyTypedControls.TextBoxes
 
         }
 
+        public bool Selectable
+        {
+            get => Child.Selectable;
+            set => Child.Selectable = value;
+        }
     }
 }

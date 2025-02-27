@@ -14,7 +14,7 @@ namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
    
 
     [ToolboxItem(Globals.SHOW_BASE_COMPONENTS_IN_TOOLBOX)]
-    public class BooleanComboBox : BooleanControlHost<HoneycombComboBox>
+    public class BooleanComboBox : BooleanControlHost<HoneycombComboBox>, ISelectable
     {
         public const bool AUTO_POPULATE_DEFAULT = true;
 
@@ -48,6 +48,13 @@ namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
             get => ComboBoxExtension.AutoSort;
             set => ComboBoxExtension.AutoSort = value;
         }
+
+        public bool Selectable
+        {
+            get => Child.Selectable;
+            set => Child.Selectable = value;
+        }
+
 
         public IEnumerable<bool> RawValues
         {

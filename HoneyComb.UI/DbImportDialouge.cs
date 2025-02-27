@@ -37,7 +37,7 @@ namespace Honeycomb.UI
 
         public DateTime SaveDateStart
         {
-            get => SaveDateStartBox.Value.AddDays(-1);
+            get => SaveDateStartBox.Value.Date;
             set
             {
                 SaveDateStartBox.Value = value;
@@ -46,7 +46,7 @@ namespace Honeycomb.UI
 
         public DateTime SaveDateEnd
         {
-            get => SaveDateEndBox.Value;
+            get => SaveDateEndBox.Value.AddDays(1).Date;
             set
             {
                 SaveDateEndBox.Value = value;
@@ -55,7 +55,7 @@ namespace Honeycomb.UI
 
         public DateTime EffectiveDateStart
         {
-            get => EffectiveDateStartBox.Value.AddDays(-1);
+            get => EffectiveDateStartBox.Value.Date;
             set
             {
                 EffectiveDateStartBox.Value = value;
@@ -64,7 +64,7 @@ namespace Honeycomb.UI
 
         public DateTime EffectiveDateEnd
         {
-            get => EffectiveDateEndBox.Value;
+            get => EffectiveDateEndBox.Value.AddDays(1).Date;
             set
             {
                 EffectiveDateEndBox.Value = value;
@@ -114,10 +114,12 @@ namespace Honeycomb.UI
         {
             get
             {
-                List<string> filterSubstrings = new()
+                List<string> filterSubstrings = new();
+
+                if (SaveDateEndBox.Checked)
                 {
-                    $"{SAVE_DATE_COLUMN} < '{SaveDateEnd:s}'"
-                };
+                    filterSubstrings.Add($"{SAVE_DATE_COLUMN} < '{SaveDateEnd:s}'");
+                }
                 if (SaveDateStartBox.Checked)
                 {
                     filterSubstrings.Add($"{SAVE_DATE_COLUMN} > '{SaveDateStart:s}'");
@@ -136,18 +138,26 @@ namespace Honeycomb.UI
                 }
                 if (!string.IsNullOrWhiteSpace(State))
                 {
-                    filterSubstrings.Add($"{ACCOUNT_STATE_COLUMN} LIKE '%{State}%'");
+                    filterSubstrings.Add($"{ACCOUNT_STATE_COLUMN} LIKE '{State}'");
                 }
                 if (!string.IsNullOrWhiteSpace(PolicyType))
                 {
-                    filterSubstrings.Add($"{POLICY_TYPE_COLUMN} = '%{PolicyType}%'");
+                    filterSubstrings.Add($"{POLICY_TYPE_COLUMN} LIKE '{PolicyType}'");
                 }
                 if (!string.IsNullOrWhiteSpace(PolicyName))
                 {
-                    filterSubstrings.Add($"{POLICY_NAME_COLUMN} LIKE '%{PolicyName}%'");
+                    filterSubstrings.Add($"{POLICY_NAME_COLUMN} LIKE '{PolicyName}'");
                 }
 
-                var result = string.Join(" AND \n", filterSubstrings);
+                string result;
+                if(filterSubstrings.Count == 0)
+                {
+                    result = "";
+                }
+                else
+                {
+                    result = "WHERE \n" + string.Join(" AND \n", filterSubstrings);
+                }
 
                 return result;
             }

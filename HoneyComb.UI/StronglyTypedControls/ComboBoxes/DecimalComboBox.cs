@@ -15,7 +15,7 @@ using Honeycomb.UI.BaseComponents;
 namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
 {
     [ToolboxItem(Globals.SHOW_BASE_COMPONENTS_IN_TOOLBOX)]
-    public class DecimalComboBox : NumericControlHost<HoneycombComboBox, decimal>
+    public class DecimalComboBox : NumericControlHost<HoneycombComboBox, decimal>, ISelectable
     {
         public DecimalComboBox() : this(new()) { }
 
@@ -95,6 +95,12 @@ namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
         {
             get => ComboBoxExtension.AutoSort;
             set => ComboBoxExtension.AutoSort = value;
+        }
+
+        public bool Selectable
+        {
+            get => Child.Selectable;
+            set => Child.Selectable = value;
         }
 
         public IEnumerable<decimal> RawValues
