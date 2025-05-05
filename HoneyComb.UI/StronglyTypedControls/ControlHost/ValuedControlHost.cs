@@ -13,10 +13,16 @@ using Honeycomb.UI.StronglyTypedControls.ControlHost;
 using System.Diagnostics.CodeAnalysis;
 using HoneyComb.UI.StronglyTypedControls;
 using HoneyComb.UI.BaseComponents.MultiSelect;
+using HoneyComb.UI.BaseComponents.TextBoxVerifiers;
 
 namespace Honeycomb.UI.StronglyTypedControls
 {
-    public abstract class ValuedControlHost<TControl, T> : ContainerControl, IValuedControlHost<TControl, T> , IHighlightableText
+    public abstract class ValuedControlHost<TControl, T> : 
+        ContainerControl, 
+        IValuedControlHost<TControl, T>,
+        IVerifiable<T>,
+        IHighlightableText
+
         where TControl : Control, new()
         where T : struct, IEquatable<T>
     {
@@ -259,10 +265,10 @@ namespace Honeycomb.UI.StronglyTypedControls
         }
 
         [DefaultValue(RequiredControlVerifier.IS_REQUIRED_DEFAULT)]
-        public bool IsRequired
+        public bool Required
         {
-            get => (Verifiers[RequiredControlVerifier.TypeId] as RequiredControlVerifier<T>)!.IsRequired;
-            set => (Verifiers[RequiredControlVerifier.TypeId] as RequiredControlVerifier<T>)!.IsRequired = value;
+            get => (Verifiers[RequiredControlVerifier.TypeId] as RequiredControlVerifier<T>)!.Required;
+            set => (Verifiers[RequiredControlVerifier.TypeId] as RequiredControlVerifier<T>)!.Required = value;
         }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]

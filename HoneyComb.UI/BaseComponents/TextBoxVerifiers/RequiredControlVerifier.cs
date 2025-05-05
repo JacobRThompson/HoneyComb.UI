@@ -27,15 +27,15 @@ namespace Honeycomb.UI.BaseComponents.TextBoxVerifiers
         public bool Enabled { get; set; }
 
         public Control? Parent { get;  set; }
-        public bool IsRequired { get; set; } = RequiredControlVerifier.IS_REQUIRED_DEFAULT;
+        public bool Required { get; set; } = RequiredControlVerifier.IS_REQUIRED_DEFAULT;
 
         
 
         public bool Verify( in (bool couldParse, T parsedValue) parseResult)
         {
-            bool isValid = parseResult.couldParse || !IsRequired;
+            bool isValid = parseResult.couldParse || !Required;
 
-            string errorText = parseResult.couldParse ? string.Empty : RequiredControlVerifier.IS_REQUIRED_MSG;
+            string errorText = isValid ? string.Empty : RequiredControlVerifier.IS_REQUIRED_MSG;
 
             if (RequiredControlVerifier.IsRequiredProvider != null && Parent!= null &&
                 RequiredControlVerifier.IsRequiredProvider.GetError(Parent) != errorText)
