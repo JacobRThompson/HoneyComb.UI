@@ -28,9 +28,7 @@ namespace Honeycomb.UI.BaseComponents.TextBoxVerifiers
 
         public Control? Parent { get;  set; }
         public bool Required { get; set; } = RequiredControlVerifier.IS_REQUIRED_DEFAULT;
-
-        
-
+       
         public bool Verify( in (bool couldParse, T parsedValue) parseResult)
         {
             bool isValid = parseResult.couldParse || !Required;

@@ -8,11 +8,12 @@ using System.ComponentModel;
 using Honeycomb.UI.BaseComponents.TextBoxVerifiers;
 using Honeycomb.UI.StronglyTypedControls.ControlHost;
 using Honeycomb.UI.BaseComponents;
+using HoneyComb.UI.StronglyTypedControls.ComboBoxes;
 
 namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
 {
     [ToolboxItem(Globals.SHOW_BASE_COMPONENTS_IN_TOOLBOX)]
-    public class DoubleComboBox : NumericControlHost<HoneycombComboBox, double>, ISelectable
+    public class DoubleComboBox : NumericControlHost<HoneycombComboBox, double>, ISelectable, IComboBox
     {
 
         public DoubleComboBox(): this(new()) { }

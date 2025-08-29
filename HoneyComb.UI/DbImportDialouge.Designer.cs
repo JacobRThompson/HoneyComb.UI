@@ -35,6 +35,7 @@
             DateColumn = new DataGridViewTextBoxColumn();
             UnderwriterNameColumn = new DataGridViewTextBoxColumn();
             PolicyNameColumn = new DataGridViewTextBoxColumn();
+            PolicyNumber = new DataGridViewTextBoxColumn();
             EffectiveDateColumn = new DataGridViewTextBoxColumn();
             StateColumn = new DataGridViewTextBoxColumn();
             LoadSelectedPolicy = new Button();
@@ -43,6 +44,9 @@
             PolicyNameBox = new TextBox();
             StateBox = new TextBox();
             tableLayoutPanel1 = new TableLayoutPanel();
+            label1 = new Label();
+            AllowMissingList = new CheckedListBox();
+            textBox1 = new TextBox();
             label9 = new Label();
             label6 = new Label();
             SaveDateEndBox = new DateTimePicker();
@@ -55,7 +59,6 @@
             label8 = new Label();
             EffectiveDateEndBox = new DateTimePicker();
             label11 = new Label();
-            PolicyTypeBox = new ComboBox();
             label10 = new Label();
             RefreshAvailablePolicies = new Button();
             ((System.ComponentModel.ISupportInitialize)errorProvider1).BeginInit();
@@ -69,25 +72,29 @@
             // 
             // dataGridView1
             // 
+            dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
-            dataGridView1.AllowUserToOrderColumns = true;
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { SaveIdColumn, DateColumn, UnderwriterNameColumn, PolicyNameColumn, EffectiveDateColumn, StateColumn });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { SaveIdColumn, DateColumn, UnderwriterNameColumn, PolicyNameColumn, PolicyNumber, EffectiveDateColumn, StateColumn });
             dataGridView1.Location = new Point(12, 27);
             dataGridView1.MinimumSize = new Size(880, 0);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(910, 229);
+            dataGridView1.Size = new Size(1005, 277);
             dataGridView1.TabIndex = 0;
+            dataGridView1.SortCompare += dataGridView1_SortCompare;
             // 
             // SaveIdColumn
             // 
+            SaveIdColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            SaveIdColumn.Frozen = true;
             SaveIdColumn.HeaderText = "Save Id";
             SaveIdColumn.Name = "SaveIdColumn";
             SaveIdColumn.ReadOnly = true;
+            SaveIdColumn.Width = 137;
             // 
             // DateColumn
             // 
@@ -105,6 +112,11 @@
             PolicyNameColumn.HeaderText = "Policy Name";
             PolicyNameColumn.Name = "PolicyNameColumn";
             // 
+            // PolicyNumber
+            // 
+            PolicyNumber.HeaderText = "Policy Number";
+            PolicyNumber.Name = "PolicyNumber";
+            // 
             // EffectiveDateColumn
             // 
             EffectiveDateColumn.HeaderText = "Effective Date";
@@ -118,7 +130,7 @@
             // LoadSelectedPolicy
             // 
             LoadSelectedPolicy.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            LoadSelectedPolicy.Location = new Point(751, 277);
+            LoadSelectedPolicy.Location = new Point(938, 335);
             LoadSelectedPolicy.Name = "LoadSelectedPolicy";
             LoadSelectedPolicy.Size = new Size(79, 23);
             LoadSelectedPolicy.TabIndex = 1;
@@ -139,7 +151,7 @@
             // 
             tableLayoutPanel1.SetColumnSpan(UnderWriterNameBox, 3);
             UnderWriterNameBox.Dock = DockStyle.Fill;
-            UnderWriterNameBox.Location = new Point(110, 24);
+            UnderWriterNameBox.Location = new Point(119, 24);
             UnderWriterNameBox.Margin = new Padding(0, 0, 0, 1);
             UnderWriterNameBox.Name = "UnderWriterNameBox";
             UnderWriterNameBox.Size = new Size(215, 23);
@@ -149,7 +161,7 @@
             // 
             tableLayoutPanel1.SetColumnSpan(PolicyNameBox, 3);
             PolicyNameBox.Dock = DockStyle.Fill;
-            PolicyNameBox.Location = new Point(110, 48);
+            PolicyNameBox.Location = new Point(119, 48);
             PolicyNameBox.Margin = new Padding(0, 0, 0, 1);
             PolicyNameBox.Name = "PolicyNameBox";
             PolicyNameBox.Size = new Size(215, 23);
@@ -158,7 +170,7 @@
             // StateBox
             // 
             StateBox.Dock = DockStyle.Fill;
-            StateBox.Location = new Point(430, 24);
+            StateBox.Location = new Point(446, 24);
             StateBox.Margin = new Padding(0, 0, 0, 1);
             StateBox.Name = "StateBox";
             StateBox.Size = new Size(100, 23);
@@ -168,7 +180,6 @@
             // 
             tableLayoutPanel1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             tableLayoutPanel1.AutoSize = true;
-            tableLayoutPanel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             tableLayoutPanel1.ColumnCount = 9;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
@@ -179,6 +190,9 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel1.Controls.Add(label1, 0, 3);
+            tableLayoutPanel1.Controls.Add(AllowMissingList, 1, 3);
+            tableLayoutPanel1.Controls.Add(textBox1, 6, 2);
             tableLayoutPanel1.Controls.Add(label9, 5, 1);
             tableLayoutPanel1.Controls.Add(label6, 0, 2);
             tableLayoutPanel1.Controls.Add(StateBox, 6, 1);
@@ -194,21 +208,56 @@
             tableLayoutPanel1.Controls.Add(label8, 7, 0);
             tableLayoutPanel1.Controls.Add(EffectiveDateEndBox, 8, 0);
             tableLayoutPanel1.Controls.Add(label11, 5, 2);
-            tableLayoutPanel1.Controls.Add(PolicyTypeBox, 6, 2);
-            tableLayoutPanel1.Location = new Point(12, 277);
+            tableLayoutPanel1.Location = new Point(12, 335);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 3;
+            tableLayoutPanel1.RowCount = 4;
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
-            tableLayoutPanel1.Size = new Size(648, 72);
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.Size = new Size(664, 144);
             tableLayoutPanel1.TabIndex = 10;
+            // 
+            // label1
+            // 
+            label1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            label1.AutoSize = true;
+            label1.Location = new Point(3, 82);
+            label1.Margin = new Padding(3, 10, 3, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(113, 62);
+            label1.TabIndex = 13;
+            label1.Text = "Allow Empty Values:";
+            label1.TextAlign = ContentAlignment.TopRight;
+            // 
+            // AllowMissingList
+            // 
+            tableLayoutPanel1.SetColumnSpan(AllowMissingList, 3);
+            AllowMissingList.Dock = DockStyle.Top;
+            AllowMissingList.FormattingEnabled = true;
+            AllowMissingList.Items.AddRange(new object[] { "Underwriter Name", "Policy Name", "Policy Number", "Effective Date" });
+            AllowMissingList.Location = new Point(119, 82);
+            AllowMissingList.Margin = new Padding(0, 10, 0, 1);
+            AllowMissingList.Name = "AllowMissingList";
+            AllowMissingList.Size = new Size(215, 58);
+            AllowMissingList.TabIndex = 15;
+            AllowMissingList.ItemCheck += AllowMissingList_ItemCheck;
+            // 
+            // textBox1
+            // 
+            tableLayoutPanel1.SetColumnSpan(textBox1, 3);
+            textBox1.Dock = DockStyle.Fill;
+            textBox1.Location = new Point(446, 48);
+            textBox1.Margin = new Padding(0, 0, 0, 1);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(218, 23);
+            textBox1.TabIndex = 13;
             // 
             // label9
             // 
             label9.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             label9.AutoSize = true;
-            label9.Location = new Point(394, 24);
+            label9.Location = new Point(410, 24);
             label9.Name = "label9";
             label9.Size = new Size(33, 24);
             label9.TabIndex = 11;
@@ -219,7 +268,7 @@
             // 
             label6.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             label6.AutoSize = true;
-            label6.Location = new Point(33, 48);
+            label6.Location = new Point(42, 48);
             label6.Name = "label6";
             label6.Size = new Size(74, 24);
             label6.TabIndex = 6;
@@ -231,7 +280,7 @@
             SaveDateEndBox.Anchor = AnchorStyles.Left;
             SaveDateEndBox.Checked = false;
             SaveDateEndBox.Format = DateTimePickerFormat.Short;
-            SaveDateEndBox.Location = new Point(228, 0);
+            SaveDateEndBox.Location = new Point(237, 0);
             SaveDateEndBox.Margin = new Padding(0, 0, 0, 1);
             SaveDateEndBox.MinimumSize = new Size(77, 23);
             SaveDateEndBox.Name = "SaveDateEndBox";
@@ -244,7 +293,7 @@
             label5.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             label5.AutoSize = true;
             label5.FlatStyle = FlatStyle.Popup;
-            label5.Location = new Point(210, 0);
+            label5.Location = new Point(219, 0);
             label5.Margin = new Padding(0);
             label5.Name = "label5";
             label5.Size = new Size(18, 24);
@@ -257,7 +306,7 @@
             SaveDateStartBox.Anchor = AnchorStyles.Left;
             SaveDateStartBox.Checked = false;
             SaveDateStartBox.Format = DateTimePickerFormat.Short;
-            SaveDateStartBox.Location = new Point(110, 0);
+            SaveDateStartBox.Location = new Point(119, 0);
             SaveDateStartBox.Margin = new Padding(0, 0, 0, 1);
             SaveDateStartBox.MinimumSize = new Size(77, 23);
             SaveDateStartBox.Name = "SaveDateStartBox";
@@ -270,7 +319,7 @@
             // 
             label3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             label3.AutoSize = true;
-            label3.Location = new Point(49, 0);
+            label3.Location = new Point(58, 0);
             label3.Name = "label3";
             label3.Size = new Size(58, 24);
             label3.TabIndex = 1;
@@ -281,7 +330,7 @@
             // 
             label4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             label4.AutoSize = true;
-            label4.Location = new Point(3, 24);
+            label4.Location = new Point(12, 24);
             label4.Name = "label4";
             label4.Size = new Size(104, 24);
             label4.TabIndex = 2;
@@ -292,7 +341,7 @@
             // 
             label7.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             label7.AutoSize = true;
-            label7.Location = new Point(348, 0);
+            label7.Location = new Point(364, 0);
             label7.Name = "label7";
             label7.Size = new Size(79, 24);
             label7.TabIndex = 7;
@@ -304,7 +353,7 @@
             EffectiveDateStartBox.Anchor = AnchorStyles.Left;
             EffectiveDateStartBox.Checked = false;
             EffectiveDateStartBox.Format = DateTimePickerFormat.Short;
-            EffectiveDateStartBox.Location = new Point(430, 0);
+            EffectiveDateStartBox.Location = new Point(446, 0);
             EffectiveDateStartBox.Margin = new Padding(0, 0, 0, 1);
             EffectiveDateStartBox.MinimumSize = new Size(77, 23);
             EffectiveDateStartBox.Name = "EffectiveDateStartBox";
@@ -318,7 +367,7 @@
             label8.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             label8.AutoSize = true;
             label8.FlatStyle = FlatStyle.Popup;
-            label8.Location = new Point(530, 0);
+            label8.Location = new Point(546, 0);
             label8.Margin = new Padding(0);
             label8.Name = "label8";
             label8.Size = new Size(18, 24);
@@ -331,7 +380,7 @@
             EffectiveDateEndBox.Anchor = AnchorStyles.Left;
             EffectiveDateEndBox.Checked = false;
             EffectiveDateEndBox.Format = DateTimePickerFormat.Short;
-            EffectiveDateEndBox.Location = new Point(548, 0);
+            EffectiveDateEndBox.Location = new Point(564, 0);
             EffectiveDateEndBox.Margin = new Padding(0, 0, 0, 1);
             EffectiveDateEndBox.MinimumSize = new Size(77, 23);
             EffectiveDateEndBox.Name = "EffectiveDateEndBox";
@@ -343,30 +392,19 @@
             // 
             label11.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             label11.AutoSize = true;
-            label11.Location = new Point(364, 48);
+            label11.Location = new Point(357, 48);
             label11.Name = "label11";
-            label11.Size = new Size(63, 24);
+            label11.Size = new Size(86, 24);
             label11.TabIndex = 12;
-            label11.Text = "PolicyType";
+            label11.Text = "Policy Number";
             label11.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // PolicyTypeBox
-            // 
-            PolicyTypeBox.Dock = DockStyle.Fill;
-            PolicyTypeBox.FormattingEnabled = true;
-            PolicyTypeBox.Items.AddRange(new object[] { "New", "Renewal" });
-            PolicyTypeBox.Location = new Point(430, 48);
-            PolicyTypeBox.Margin = new Padding(0, 0, 0, 1);
-            PolicyTypeBox.Name = "PolicyTypeBox";
-            PolicyTypeBox.Size = new Size(100, 23);
-            PolicyTypeBox.TabIndex = 13;
             // 
             // label10
             // 
             label10.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label10.AutoSize = true;
             label10.Font = new Font("Segoe UI Symbol", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            label10.Location = new Point(12, 259);
+            label10.Location = new Point(12, 317);
             label10.Name = "label10";
             label10.Size = new Size(83, 15);
             label10.TabIndex = 11;
@@ -375,7 +413,7 @@
             // RefreshAvailablePolicies
             // 
             RefreshAvailablePolicies.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            RefreshAvailablePolicies.Location = new Point(666, 277);
+            RefreshAvailablePolicies.Location = new Point(853, 335);
             RefreshAvailablePolicies.Name = "RefreshAvailablePolicies";
             RefreshAvailablePolicies.Size = new Size(79, 23);
             RefreshAvailablePolicies.TabIndex = 12;
@@ -387,7 +425,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoValidate = AutoValidate.EnableAllowFocusChange;
-            ClientSize = new Size(934, 361);
+            ClientSize = new Size(1029, 491);
             Controls.Add(RefreshAvailablePolicies);
             Controls.Add(label10);
             Controls.Add(tableLayoutPanel1);
@@ -409,7 +447,6 @@
 
         private Button button1;
         private Button button2;
-        private Label label1;
         private ErrorProvider errorProvider1;
         private Honeycomb.UI.StronglyTypedControls.TextBoxes.DoubleTextBox decimalTextBox1;
         private Label label2;
@@ -429,16 +466,19 @@
         private DateTimePicker EffectiveDateStartBox;
         private Label label8;
         private DateTimePicker EffectiveDateEndBox;
+        public DataGridView dataGridView1;
+        public Button LoadSelectedPolicy;
+        public Button RefreshAvailablePolicies;
+        private DataGridViewTextBoxColumn PolicyNumber;
+        private TextBox textBox1;
         private Label label11;
-        private ComboBox PolicyTypeBox;
+        private Label label1;
+        private CheckedListBox AllowMissingList;
         private DataGridViewTextBoxColumn SaveIdColumn;
         private DataGridViewTextBoxColumn DateColumn;
         private DataGridViewTextBoxColumn UnderwriterNameColumn;
         private DataGridViewTextBoxColumn PolicyNameColumn;
         private DataGridViewTextBoxColumn EffectiveDateColumn;
         private DataGridViewTextBoxColumn StateColumn;
-        public DataGridView dataGridView1;
-        public Button LoadSelectedPolicy;
-        public Button RefreshAvailablePolicies;
     }
 }

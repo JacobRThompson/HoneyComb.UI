@@ -56,7 +56,8 @@ namespace Honeycomb.UI.StronglyTypedControls
             Parser = parser;
             Verifiers = new Dictionary<Guid, IControlVerifier<T>>()
             {
-                {RequiredControlVerifier.TypeId, new RequiredControlVerifier<T>(enabled: true) },
+                {CouldParseVerifier.TypeId, new CouldParseVerifier<T>(enabled: true)},
+                {RequiredControlVerifier.TypeId, new RequiredControlVerifier<T>(enabled: true)},
             }
             .Concat(miscVerifiers ?? new Dictionary<Guid, IControlVerifier<T>>()).
             ToDictionary(x => x.Key, x=> x.Value);
@@ -202,8 +203,8 @@ namespace Honeycomb.UI.StronglyTypedControls
                 return false;
             }
             if (TryGetPrevValue(out value))
-            {
-                return true;             
+            {               
+                return true;
             }
 
             bool couldParse = Parser.TryParse(Text, out value);
@@ -227,18 +228,28 @@ namespace Honeycomb.UI.StronglyTypedControls
         }
 
         public bool Verify(in (bool couldParse, T parsedValue) tryParseResult)
-        {
-            
+        {         
             bool couldVerify = true;
-
-            IEnumerable<IControlVerifier<T>> enabledVerifiers =
-                from verifier in Verifiers.Values
-                where verifier.Enabled
-                select verifier;
-
-            foreach (var verifier in enabledVerifiers)
+                
+            // we ignore any RequiredControlVerifiers because they need to check the results of all other verifiers   
+            foreach (var verifier in Verifiers.Values.
+                Where(v => v.Enabled && v is not RequiredControlVerifier<T>))
             {
                 couldVerify &= verifier.Verify(tryParseResult);
+            }
+
+            // collect results of verification attempt (putting the whitespace check here is profoundly jank but it works)
+            (bool couldParse, T parsedValue) isRequiredVerifierArgs = 
+            (
+                couldVerify && !string.IsNullOrWhiteSpace(Child.Text), 
+                tryParseResult.parsedValue
+            );
+
+            // preform any remaining verificaiton steps
+            foreach (var verifier in Verifiers.Values.
+               Where(v => v.Enabled && v is RequiredControlVerifier<T>))
+            {           
+                couldVerify &= verifier.Verify(isRequiredVerifierArgs);
             }
 
             return couldVerify;

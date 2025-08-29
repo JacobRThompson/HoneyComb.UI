@@ -10,7 +10,6 @@ namespace Honeycomb.UI.BaseComponents.TextBoxVerifiers
     public interface IControlVerifier<T>
         where T : struct
     {
-
         public Guid TypeId { get; }
         public bool Enabled { get; set; }
 

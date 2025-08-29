@@ -22,6 +22,7 @@ namespace Honeycomb.UI
         public const string SAVE_ID_COLUMN = "save_id";
         public const string SAVE_DATE_COLUMN = "save_date";
         public const string UNDERWRITER_NAME_COLUMN = "account_information@underwriter_name";
+        public const string POLICY_NO_COLUMN = "account_information@policy_number";
 
         protected bool _queryAutomatically = false;
 
@@ -30,10 +31,7 @@ namespace Honeycomb.UI
             InitializeComponent();
 
             SaveDateEnd = DateTime.Now;
-           
         }
-
-
 
         public DateTime SaveDateStart
         {
@@ -80,12 +78,12 @@ namespace Honeycomb.UI
             }
         }
 
-        public string PolicyType
+        public string PolicyNo
         {
-            get => PolicyTypeBox.Text;
+            get => textBox1.Text;
             set
             {
-                PolicyTypeBox.Text = value;
+                textBox1.Text = value;
             }
         }
 
@@ -134,23 +132,23 @@ namespace Honeycomb.UI
                 }
                 if (!string.IsNullOrWhiteSpace(UnderwriterName))
                 {
-                    filterSubstrings.Add($"{UNDERWRITER_NAME_COLUMN} LIKE '{UnderwriterName}'");
+                    filterSubstrings.Add($"{UNDERWRITER_NAME_COLUMN} LIKE '%{UnderwriterName}%'");
                 }
                 if (!string.IsNullOrWhiteSpace(State))
                 {
-                    filterSubstrings.Add($"{ACCOUNT_STATE_COLUMN} LIKE '{State}'");
+                    filterSubstrings.Add($"{ACCOUNT_STATE_COLUMN} LIKE '%{State}%'");
                 }
-                if (!string.IsNullOrWhiteSpace(PolicyType))
+                if (!string.IsNullOrWhiteSpace(PolicyNo))
                 {
-                    filterSubstrings.Add($"{POLICY_TYPE_COLUMN} LIKE '{PolicyType}'");
+                    filterSubstrings.Add($"{POLICY_NO_COLUMN} LIKE '%{PolicyNo}%'");
                 }
                 if (!string.IsNullOrWhiteSpace(PolicyName))
                 {
-                    filterSubstrings.Add($"{POLICY_NAME_COLUMN} LIKE '{PolicyName}'");
+                    filterSubstrings.Add($"{POLICY_NAME_COLUMN} LIKE '%{PolicyName}%'");
                 }
 
                 string result;
-                if(filterSubstrings.Count == 0)
+                if (filterSubstrings.Count == 0)
                 {
                     result = "";
                 }
@@ -163,5 +161,101 @@ namespace Honeycomb.UI
             }
         }
 
+        public void UpdateRowVisibility(ItemCheckEventArgs? e)
+        {
+            SuspendLayout();
+
+            bool underwriterRequired;
+            bool policyNameRequired;
+            bool policyNumberRequired;
+            bool effectiveDateRequired;
+
+            if (e is null)
+            {
+                underwriterRequired = AllowMissingList.GetItemCheckState(0) != CheckState.Checked;
+                policyNameRequired = AllowMissingList.GetItemCheckState(1) != CheckState.Checked;
+                policyNumberRequired = AllowMissingList.GetItemCheckState(2) != CheckState.Checked;
+                effectiveDateRequired = AllowMissingList.GetItemCheckState(3) != CheckState.Checked;
+            }
+            else
+            {
+                underwriterRequired = (e.Index == 0 ? e.NewValue : AllowMissingList.GetItemCheckState(0)) != CheckState.Checked;
+                policyNameRequired = (e.Index == 1 ? e.NewValue : AllowMissingList.GetItemCheckState(1)) != CheckState.Checked;
+                policyNumberRequired = (e.Index == 2 ? e.NewValue : AllowMissingList.GetItemCheckState(2)) != CheckState.Checked;
+                effectiveDateRequired = (e.Index == 3 ? e.NewValue : AllowMissingList.GetItemCheckState(3)) != CheckState.Checked;
+
+            }
+          
+            bool showCurrentRow ;
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+
+                string? underWriterName = row.Cells[2].Value?.ToString();
+                string? policyName = row.Cells[3].Value?.ToString();
+                string? policyNumber = row.Cells[4].Value?.ToString();
+
+                //This value is a DateTime if we can parse the string contents and null otherwise
+                DateTime? effectiveDate = DateTime.TryParse(row.Cells[5].Value?.ToString(), out DateTime result) ?
+                    result :
+                    null;
+
+                if (underwriterRequired && string.IsNullOrEmpty(underWriterName))
+                {
+                    showCurrentRow = false;
+                }
+                else if (policyNameRequired && string.IsNullOrEmpty(policyName))
+                {
+                    showCurrentRow = false;
+                }
+                else if (policyNumberRequired && string.IsNullOrEmpty(policyNumber))
+                {
+                    showCurrentRow = false;
+                }
+                else if (effectiveDateRequired && effectiveDate is null)
+                {
+                    showCurrentRow = false;
+                }
+                else
+                {
+                    showCurrentRow = true;
+                }
+
+                row.Visible = showCurrentRow;
+             
+            }
+
+            ResumeLayout();
+        }
+
+        private void AllowMissingList_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            UpdateRowVisibility(e);
+        }
+
+        private void dataGridView1_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
+        {
+            switch (e.Column.HeaderText)
+            {
+                case "Save Date":
+                case "Effective Date":
+
+                    //Attempt to parse cell text as date. If cell value cannot be parsed, the smallest possible datetime value is used instead.
+                    DateTime cell1_date = DateTime.TryParse(e.CellValue1?.ToString(), out DateTime result1) ? result1 : DateTime.MinValue;
+                    DateTime cell2_date = DateTime.TryParse(e.CellValue2?.ToString(), out DateTime result2) ? result2 : DateTime.MinValue;
+
+                    e.SortResult = DateTime.Compare(cell1_date, cell2_date);
+                    break;
+                                 
+                default:
+
+                    string val1 = e.CellValue1?.ToString() ?? string.Empty;
+                    string val2 = e.CellValue2?.ToString() ?? string.Empty;
+
+                    e.SortResult = string.Compare(val1, val2);
+                    break;             
+            }
+
+            e.Handled = true;
+        }
     }
 }

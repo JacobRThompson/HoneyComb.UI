@@ -9,12 +9,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HoneyComb.UI.Utils.Extensions;
+using HoneyComb.UI.StronglyTypedControls.ComboBoxes;
 
 namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
 {
 
     [ToolboxItem(Globals.SHOW_BASE_COMPONENTS_IN_TOOLBOX)]
-    public class StringComboBox: StringControlHost<HoneycombComboBox>, ISelectable
+    public class StringComboBox: StringControlHost<HoneycombComboBox>, ISelectable, IComboBox
     {
         
         protected NumberStyles _numericStyle = NumberStyles.Number;

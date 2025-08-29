@@ -11,11 +11,12 @@ using Honeycomb.UI.StronglyTypedControls.ControlHost;
 using Honeycomb.UI.BaseComponents.TextBoxVerifiers;
 using Honeycomb.UI.BaseComponents.TextBoxParsers;
 using Honeycomb.UI.BaseComponents;
+using HoneyComb.UI.StronglyTypedControls.ComboBoxes;
 
 namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
 {
     [ToolboxItem(Globals.SHOW_BASE_COMPONENTS_IN_TOOLBOX)]
-    public class DecimalComboBox : NumericControlHost<HoneycombComboBox, decimal>, ISelectable
+    public class DecimalComboBox : NumericControlHost<HoneycombComboBox, decimal>, ISelectable, IComboBox
     {
         public DecimalComboBox() : this(new()) { }
 

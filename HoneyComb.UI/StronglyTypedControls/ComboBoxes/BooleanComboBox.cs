@@ -8,13 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Honeycomb.UI.BaseComponents;
+using HoneyComb.UI.StronglyTypedControls.ComboBoxes;
 
 namespace Honeycomb.UI.StronglyTypedControls.ComboBoxes
 {
    
 
     [ToolboxItem(Globals.SHOW_BASE_COMPONENTS_IN_TOOLBOX)]
-    public class BooleanComboBox : BooleanControlHost<HoneycombComboBox>, ISelectable
+    public class BooleanComboBox : BooleanControlHost<HoneycombComboBox>, ISelectable, IComboBox
     {
         public const bool AUTO_POPULATE_DEFAULT = true;
 
